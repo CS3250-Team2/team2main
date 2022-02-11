@@ -6,6 +6,7 @@ package sprint1Project;
 	import java.sql.PreparedStatement;
 	import java.sql.SQLException;
 	import java.util.Scanner;
+	import java.sql.ResultSet;
 
 public class ConnectDB {
 	    public static void main(String[] args) throws ClassNotFoundException {
@@ -13,7 +14,9 @@ public class ConnectDB {
 	        String username = "root";
 	        String password = "ZHk37_fTdZZ4bnkp";
 	        int number;
+	      
 	        Scanner in = new Scanner(System.in);
+	        
 	        
 
 	        try {
@@ -53,23 +56,53 @@ public class ConnectDB {
 	        	            	statement.close();}
 	        	            break;
 	        	          
-	        	       case 2:
-	        	    	   System.out.println("not ready yet :)");
-	        	    	   break;
+	            		case 2:
+	            			  String sql2 = "select ProductID, Quantity, Wholesale, Saleprice, SupplierID from productInfo where ProductID = ?";
+	            			  PreparedStatement stmt = connection.prepareStatement (sql2);
+	            			  System.out.println("Enter a productId: ");
+	            			  String productId = in.next ();
+	            			  stmt.setString(1, productId);
+	            			  ResultSet rs = stmt.executeQuery();
+	            			  while (rs.next()) {
+	            			      String productID =   rs.getString("ProductID");
+	            			      double Quantity = rs.getDouble("Quantity");
+	            			      double Wholesale = rs.getDouble("Wholesale");
+	            			      double Saleprice = rs.getDouble("Saleprice");
+	            			      String SupplierID = rs.getString("SupplierId");
+	            			      System.out.println("ProductID: " + productID + ", Quantity: " + Quantity + ", Wholesale: " + Wholesale + ", Saleprice: " + Saleprice + ", SupplierID: " + SupplierID);
+	            			  }
+	            			  break;
+
+        	    			   
+	      	    		   
+     	    	   
+	        	    	   
+	        	    	  
 	        	    	   
 	        	       default:
 	        	    	   System.out.println("Goodbye.");
 	        	    	   break;
+	            	
 	            	}
-	            }while (number != 3);
+	            
+	        
+	        
+	            }while (number != 3); 
 	        }
+	            
+	        
 	            	
 	        catch (SQLException e) {       //to check if the db connection was successful or not
 	            System.out.println("Oops, error!");
 	            e.printStackTrace();
 	        }
+	    }
+}
+
 	    
-	    }}
+
+
+
 
 	  
 
