@@ -13,7 +13,7 @@ public class ConnectDB {
 	        String url = "jdbc:mysql://localhost:3306/sprint1";
 	        String username = "root";
 	        String password = "ZHk37_fTdZZ4bnkp";
-	        int number;
+	        	        int number;
 	      
 	        Scanner in = new Scanner(System.in);
 	        
@@ -29,11 +29,12 @@ public class ConnectDB {
 	            		String menu = "\n Welcome to Team 2 Inventory Program!"
                                 		+ "\n1.) Choose 1 to create a username and password."
                                 		+ "\n2.) Choose 2 to check inventory information."
-                                		+ "\n3.) Choose 3 to EXIT. ";
+                                		+ "\n3.) Choose 3 to print out full inventory."
+                                		+ "\n4.) Choose 4 to EXIT. ";
                         System.out.println(menu);
                         number = in.nextInt();
                         		
-	            	} while (number < 0 || number > 3);
+	            	} while (number < 0 || number > 4);
 	            	
 	            	switch(number) {
 	            		case 1:
@@ -75,7 +76,19 @@ public class ConnectDB {
 
         	    			   
 	      	    		   
-     	    	   
+	            		case 3: 
+	            			String sql3 = "select * from productInfo"; // print the entire table on database
+	            			PreparedStatement stmt2 = connection.prepareStatement (sql3);
+	            	        	ResultSet rs2 = stmt2.executeQuery(sql3);
+	            	        	while(rs2.next()) {
+	            	        	    String productID =   rs2.getString("ProductID");
+	            			    double Quantity = rs2.getDouble("Quantity");
+	            			    double Wholesale = rs2.getDouble("Wholesale");
+	            			    double Saleprice = rs2.getDouble("Saleprice");
+	            			    String SupplierID = rs2.getString("SupplierId");
+	            			    System.out.println("ProductID: " + productID + ", Quantity: " + Quantity + ", Wholesale: " + Wholesale + ", Saleprice: " + Saleprice + ", SupplierID: " + SupplierID);
+	            	        	}
+	            			break;
 	        	    	   
 	        	    	  
 	        	    	   
@@ -87,7 +100,7 @@ public class ConnectDB {
 	            
 	        
 	        
-	            }while (number != 3); 
+	            }while (number != 4); 
 	        }
 	            
 	        
@@ -98,8 +111,6 @@ public class ConnectDB {
 	        }
 	    }
 }
-
-	    
 
 
 
