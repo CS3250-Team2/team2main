@@ -1,16 +1,17 @@
 package sprint1Project;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Scanner;
+import sprintProject.dbConnection;
+import java.sql.ResultSet;
+import java.sql.DatabaseMetaData;
 	
-	import java.sql.Connection;
-	import java.sql.DriverManager;
-	import java.sql.PreparedStatement;
-	import java.sql.SQLException;
-	import java.util.Scanner;
-	import java.sql.ResultSet;
-
 public class ConnectDB {
-	    static Scanner in = new Scanner(System.in);
-	
+	static Scanner in = new Scanner(System.in);
+
 	
 	    public static void main(String[] args) throws ClassNotFoundException {
 	    	PreparedStatement statement = null; 
@@ -36,7 +37,7 @@ public class ConnectDB {
                         System.out.println(menu);
                         number = in.nextInt();
                         		
-	            	} while (number < 0 || number > 6);
+	            	} while (number < 0 || number > 5);
 	            	
 	            	switch(number) {
 	            		case 1:
@@ -99,6 +100,64 @@ public class ConnectDB {
 
 	            	        break;
 	            			
+ //tramEdit
+	        	    	   
+	            		case 4:
+	            			int choice;
+	            			ConnectDB select = new ConnectDB();
+	            			String sql4 = "select * from productInfo";
+	            			statement= connection.prepareStatement (sql4);
+		          			rs = statement.executeQuery();
+		          			choice = select.selectChocie();
+		          			  
+		          			  		switch(choice) {
+		          			  			case 1:
+		          			  				System.out.println("ProductID\t\tQuantity");
+		          			  				while(rs.next()) {
+		          			  					String productID =   rs.getString("ProductID");
+		          			  					double Quantity = rs.getDouble("Quantity");
+		          			  					System.out.println( productID+ "\t\t" + Quantity);
+		          			  				System.out.println("ProductID\t\tQuantity");
+		          			  				}
+		          			  				break;
+		          			  				
+		          			  			case 2 :
+		          			  				System.out.println("ProductID\t\tWholesale");
+		          			  				while(rs.next()) {
+		          			  					String productID =   rs.getString("ProductID");
+		          			  					double Wholesale = rs.getDouble("Wholesale");
+		          			  					System.out.println( productID + "\t\t" + Wholesale);
+		          			  				}
+		          			  				break;
+		          			  			
+		          			  			case 3:
+		          			  				System.out.println("ProductID\t\tSaleprice");
+		          			  				while(rs.next()) {
+		          			  					String productID =   rs.getString("ProductID");
+		          			  					double Saleprice = rs.getDouble("Saleprice");
+		          			  					System.out.println( productID + "\t\t" + Saleprice);
+		          			  				}
+		          			  				break;
+		          			  				
+		          			  				
+		          			  			case 4:
+		          			  				System.out.println("ProductID\t\tSupplierId");
+		          			  				while(rs.next()) {
+		          			  					String productID =   rs.getString("ProductID");
+		          			  					String SupplierID = rs.getString("SupplierId");
+		          			  					System.out.println( productID + "\t\t" + SupplierID);
+		          			  				}
+		          			  				break;
+		          			  			default:
+		          			  				break;
+		   
+		          			  
+		          			  		}
+		          			
+		          			  break;
+	        	    	   
+
+ //main
 	        	    	   
 	            		case 4:
 	            			int choice;
@@ -186,7 +245,11 @@ public class ConnectDB {
 	            
 	        
 	        
+ //tramEdit
+	            }while (number != 5); 
+
 	            }while (number != 6); 
+ //main
 	        }
 	            
 	        
@@ -195,6 +258,36 @@ public class ConnectDB {
 	            System.out.println("Oops, error!");
 	            e.printStackTrace();
 	         }
+// tramEdit
+	    
+	        	
+	    
+	    }
+		   public int selectChocie() {
+		    	
+		    	//Scanner in = new Scanner(System.in);
+		    	
+		    	String menu = "\n Welcome to Team 2 Inventory Program!"
+	           		+ "\n1.) Choose 1 to print quantity of product."
+	           		+ "\n2.) Choose 2 to print wholesale of product."
+	           		+ "\n3.) Choose 3 to print saleprice of product."
+	           		+ "\n4.) Choose 3 to print supplier ID of product."
+	           		+ "\n5.) Choose 4 to EXIT. ";
+		    	System.out.println(menu);
+		    	int choice = in.nextInt();
+		    	
+		    	return choice;
+		    }
+		    
+	 
+	     
+}
+
+
+	  
+
+	        
+ //main
 	    
 	        	
 	    
