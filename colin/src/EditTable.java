@@ -324,7 +324,7 @@ public void EditColumn(String name) {//edit  spelect data from information on pr
 		System.out.println("Enter Product ID to edit product information from inventory'\n'");
 		productID = in.next();
 		
-		
+		System.out.println("Enter new value for "+name+"");
 		if (name == "ProductID" || name == "SupplierId" )
 			{
 			String column = in.next();
