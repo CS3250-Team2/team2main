@@ -2,7 +2,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.cj.xdevapi.Statement;
+//import com.mysql.cj.xdevapi.Statement;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,12 +20,13 @@ public class ProductTable {
 	
     public List<ProductInfo> getAllProudctInfo()throws Exception{
     	List<ProductInfo> list = new ArrayList<>();  
+    	
     	PreparedStatement statement = null; 
-    	 ResultSet rs = null;
+    	ResultSet rs = null;
+    	
     	try {	
         	q = ("select * from productInfo");
     		 statement = connection.prepareStatement (q);    
-    		//state = connection.createStatement();
         	rs = statement.executeQuery(q);
     
 
@@ -55,7 +56,7 @@ public class ProductTable {
         	q = ("select * from productInfo where productID like ?");
         	
     		statement = connection.prepareStatement (q);  
-    		statement.setString(1, productID);
+    		statement.setString( 1, productID);//calling to first column to search 
         	rs = statement.executeQuery();
     
 
@@ -74,9 +75,33 @@ public class ProductTable {
 	        e.printStackTrace();
 	     } 
     	return list;
-}
+    }
     
-    
+    public void addProduct(ProductInfo theproduct) {
+    	PreparedStatement statement = null; 
+    	ResultSet rs = null;
+    	try {
+
+    		 String q = "INSERT INTO productInfo (ProductID, Quantity, Wholesale, Saleprice, SupplierID )" //state to call to table and columns in mySql
+    					+ "VALUES (?,?,?,?,?)";//values from data obtain from user input*/
+    		 statement= connection.prepareStatement (q);
+   		 
+    		 	statement.setString(1, theproduct.getProductId());
+    		 	statement.setDouble(2, theproduct.getQuantity());
+    		 	statement.setDouble(3, theproduct.getWholesale());
+    		 	statement.setDouble(4, theproduct.getSalePrice());
+    		 	statement.setString(5, theproduct.getSupplierId());
+   		 
+    		 	statement.executeUpdate();//to update information in database with new entry
+   		 
+   		 
+    		 	statement.close();
+    	}
+    	catch (SQLException e) {       //to check if the db connection was successful or not
+	        System.out.println("Oops, error!");
+	        e.printStackTrace();
+	     } 
+    }
 	public void UpdateInventory(ProductInfo product) {
 		  
     	 try {
@@ -88,7 +113,7 @@ public class ProductTable {
     		 statement.setDouble(2, product.getQuantity());
     		 statement.setDouble(3, product.getWholesale());
     		 statement.setDouble(4, product.getSalePrice());
-    		 statement.setInt(5, product.getSupplierId());
+    		 statement.setString(5, product.getSupplierId());
     		 
     		 statement.executeUpdate();//to update information in database with new entry
     		 
@@ -109,7 +134,7 @@ private ProductInfo convertRowToProduct(ResultSet rs) throws SQLException {
 	double quantity= rs.getDouble("quantity");
 	double salePrice = rs.getDouble("salePrice");
 	double wholesale = rs.getDouble("wholesale");
-	int supplierId = rs.getInt("supplierId");
+	String supplierId = rs.getString("supplierId");
 	 	
 		ProductInfo tempProduct = new ProductInfo( productId,  quantity, 
 				 wholesale,  salePrice,supplierId);
