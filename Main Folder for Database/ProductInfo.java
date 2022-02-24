@@ -1,14 +1,14 @@
 
 public class ProductInfo {
 	
-	private int supplierId;
+	private String supplierId;
     private String productId;
     private double quantity;
     private double salePrice;
     private double wholesale;
 
     public ProductInfo (String productId, double quantity, double salePrice,
-			double wholesale, int supplierId) {
+			double wholesale, String supplierId) {
 		super();
 		this.productId = productId;
 		this.quantity = quantity;
@@ -43,10 +43,10 @@ public class ProductInfo {
         this.wholesale = wholesale;
     } 
 
-	public int getSupplierId() {
+	public String getSupplierId() {
         return supplierId;
     }
-    public void setSupplierId(int supplierId) {
+    public void setSupplierId(String supplierId) {
         this.supplierId = supplierId;
     }
    
