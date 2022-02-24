@@ -1,5 +1,9 @@
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
@@ -7,6 +11,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -27,7 +34,7 @@ public class dbPage {
 
 	private JFrame frmClass;
 	private JTable table;
-
+	private ProductTable productTable;
 	/**
 	 * Launch the application.
 	 */
@@ -51,32 +58,50 @@ public class dbPage {
 	private JButton addBtn;
 	private JButton deleteBtn;
 	private JButton editBtn;
-	private JTextField textField;
+	private JTextField supplierIDtextField;
 	private JLabel prodIdLabel;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField productIDtextField ;
+	private JTextField quantitytextField;
 	private JLabel quantitiyLabel;
 	private JLabel wholesaleLabel;
-	private JTextField textField_3;
+	private JTextField wholesaletextField;
 	private JLabel salepriceLabel;
-	private JTextField textField_4;
+	private JTextField 	salepricetextField;
 	private JLabel suplierIdLabel;
 	private JButton exitDbBtn;
+	String authorization; 
+	
 	/**
 	 * Create the application.
 	 */
 	public dbPage() {
+		try {
+			productTable = new ProductTable();
+		}
+		catch (Exception exc) {       //to check if the db connection was successful or not
+	        System.out.println("Oops, error!");
+	      //  JOptionPane.showMessageDialog(this, "Error:" + exc, "Error", JOptionPane.ERROR_MESSAGE);
+	     }
 		
+		//Authorization permission = new Authorization();
 		 String url = "jdbc:mysql://localhost:3306/Sprint1";
 	     String username = "root";
-	     String password = "Liltwan10$";
-		 initialize();
+	     String password = "password123";
+		
+		//authorization = permission.getPermission();
+	     initialize()	
+		
 	}
+
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	
+	
+	
 	private void initialize() {
+		JPanel panel = new JPanel();
 		frmClass = new JFrame();
 		frmClass.setBounds(100, 100, 662, 504);
 		frmClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,11 +114,94 @@ public class dbPage {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
+		
+		
+		prodIdLabel = new JLabel("Product ID");
+		prodIdLabel.setBounds(6, 12, 95, 16);
+		frmClass.getContentPane().add(prodIdLabel);
+	
+	
+		quantitytextField = new JTextField();
+		quantitytextField.setBounds(148, 40, 95, 26);
+		frmClass.getContentPane().add(quantitytextField );
+		quantitytextField.setColumns(10);
+		
+		wholesaletextField = new JTextField();
+		wholesaletextField.setBounds(255, 40, 95, 26);
+		frmClass.getContentPane().add(wholesaletextField);
+		wholesaletextField.setColumns(10);
+		
+		quantitiyLabel = new JLabel("Quantity ");
+		quantitiyLabel.setBounds(148, 12, 61, 16);
+		frmClass.getContentPane().add(quantitiyLabel);
+		
+		wholesaleLabel = new JLabel("Wholesale");
+		wholesaleLabel.setBounds(255, 12, 84, 16);
+		frmClass.getContentPane().add(wholesaleLabel);
+		
+		salepricetextField = new JTextField();
+		salepricetextField.setBounds(362, 40, 95, 26);
+		frmClass.getContentPane().add(salepricetextField);
+		salepricetextField.setColumns(10);
+		
+		salepriceLabel = new JLabel("Saleprice");
+		salepriceLabel.setBounds(362, 12, 61, 16);
+		frmClass.getContentPane().add(salepriceLabel);
+		
+		supplierIDtextField = new JTextField();
+		supplierIDtextField.setBounds(469, 40, 130, 26);
+		frmClass.getContentPane().add(supplierIDtextField);
+		supplierIDtextField.setColumns(10);
+		
+		suplierIdLabel = new JLabel("Supplier ID");
+		suplierIdLabel.setBounds(469, 12, 95, 16);
+		frmClass.getContentPane().add(suplierIdLabel);
+		
+		exitDbBtn = new JButton("Exit Database");
+		exitDbBtn.setBounds(6, 283, 134, 29);
+		frmClass.getContentPane().add(exitDbBtn);
+		
 		searchBtn = new JButton("Search Inventory");
+		searchBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//get productId from text field
+				
+				//call the productinfo
+				
+				//if productId empty, get all productinfo
+				
+				//printout productinfo
+				
+				try {
+					String userinput = productIDtextField.getText();
+					
+					List<ProductInfo> productInfo = null;
+					
+					if(userinput != null && userinput.trim().length() > 0) {
+						productInfo = productTable.searchAllProudctInfo(userinput);
+					}
+					else {
+						productInfo = productTable.getAllProudctInfo();
+					}
+					//prints the data onto the GUI table
+				ProductTableModel model = new ProductTableModel(productInfo);
+					table.setModel(model);
+				}
+				
+				catch(Exception exc){
+					
+				}
+			}
+		});
 		searchBtn.setBounds(6, 78, 134, 29);
 		frmClass.getContentPane().add(searchBtn);
 		
 		showBtn = new JButton("Show Inventory");
+		showBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		showBtn.setBounds(6, 119, 134, 29);
 		frmClass.getContentPane().add(showBtn);
 		
@@ -113,53 +221,12 @@ public class dbPage {
 		editBtn.setBounds(6, 242, 134, 29);
 		frmClass.getContentPane().add(editBtn);
 		
-		textField = new JTextField();
-		textField.setBounds(6, 40, 130, 26);
-		frmClass.getContentPane().add(textField);
-		textField.setColumns(10);
+		productIDtextField = new JTextField();
+		productIDtextField.setBounds(6, 40, 130, 26);
+		frmClass.getContentPane().add(productIDtextField);
+		productIDtextField.setColumns(10);
 		
-		prodIdLabel = new JLabel("Product ID");
-		prodIdLabel.setBounds(6, 12, 95, 16);
-		frmClass.getContentPane().add(prodIdLabel);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(148, 40, 95, 26);
-		frmClass.getContentPane().add(textField_1);
-		textField_1.setColumns(10);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(255, 40, 95, 26);
-		frmClass.getContentPane().add(textField_2);
-		textField_2.setColumns(10);
-		
-		quantitiyLabel = new JLabel("Quantity ");
-		quantitiyLabel.setBounds(148, 12, 61, 16);
-		frmClass.getContentPane().add(quantitiyLabel);
-		
-		wholesaleLabel = new JLabel("Wholesale");
-		wholesaleLabel.setBounds(255, 12, 84, 16);
-		frmClass.getContentPane().add(wholesaleLabel);
-		
-		textField_3 = new JTextField();
-		textField_3.setBounds(362, 40, 95, 26);
-		frmClass.getContentPane().add(textField_3);
-		textField_3.setColumns(10);
-		
-		salepriceLabel = new JLabel("Saleprice");
-		salepriceLabel.setBounds(362, 12, 61, 16);
-		frmClass.getContentPane().add(salepriceLabel);
-		
-		textField_4 = new JTextField();
-		textField_4.setBounds(469, 40, 130, 26);
-		frmClass.getContentPane().add(textField_4);
-		textField_4.setColumns(10);
-		
-		suplierIdLabel = new JLabel("Supplier ID");
-		suplierIdLabel.setBounds(469, 12, 95, 16);
-		frmClass.getContentPane().add(suplierIdLabel);
-		
-		exitDbBtn = new JButton("Exit Database");
-		exitDbBtn.setBounds(6, 283, 134, 29);
-		frmClass.getContentPane().add(exitDbBtn);
 	}
+	
 }
