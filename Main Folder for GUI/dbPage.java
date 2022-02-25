@@ -89,7 +89,7 @@ public class dbPage {
 	     String password = "password123";
 		
 		//authorization = permission.getPermission();
-	     initialize()	
+	     initialize();	
 		
 	}
 
