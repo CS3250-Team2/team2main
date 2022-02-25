@@ -1,5 +1,4 @@
 CREATE database Sprint1;
-
 use sprint1;
 CREATE table productInfo(ProductID CHAR(12),
 						 Quantity double,
@@ -10,8 +9,18 @@ select * FROM productInfo;
 
 use Sprint1;
 CREATE table userInfo(userName CHAR(18),
-			pass CHAR(18),
+					  pass CHAR(18),
                       authorization CHAR (2));
 			
 
 select * FROM userInfo;
+
+use Sprint1;
+CREATE table orders (Date DATE,
+		      cust_email CHAR(25),
+                      cust_location double,
+                      product_id  CHAR(12),
+                      product_quantity double);
+			
+
+select * FROM orders;
