@@ -89,7 +89,8 @@ public class dbPage {
 	     String password = "password123";
 		
 		//authorization = permission.getPermission();
-	     initialize();	
+	     initialize();
+	
 		
 	}
 
@@ -101,7 +102,7 @@ public class dbPage {
 	
 	
 	private void initialize() {
-		JPanel panel = new JPanel();
+		//JPanel panel = new JPanel();
 		frmClass = new JFrame();
 		frmClass.setBounds(100, 100, 662, 504);
 		frmClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -113,9 +114,7 @@ public class dbPage {
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		
-		
-		
+				
 		prodIdLabel = new JLabel("Product ID");
 		prodIdLabel.setBounds(6, 12, 95, 16);
 		frmClass.getContentPane().add(prodIdLabel);
@@ -166,22 +165,17 @@ public class dbPage {
 			public void actionPerformed(ActionEvent e) {
 				//get productId from text field
 				
-				//call the productinfo
-				
-				//if productId empty, get all productinfo
-				
-				//printout productinfo
-				
 				try {
-					String userinput = productIDtextField.getText();
+					String userinput = productIDtextField.getText();//get productId from textfield with userinput
 					
 					List<ProductInfo> productInfo = null;
 					
 					if(userinput != null && userinput.trim().length() > 0) {
-						productInfo = productTable.searchAllProudctInfo(userinput);
+						productInfo = productTable.searchAllProudctInfo(userinput);//call the productinfo
+						
 					}
 					else {
-						productInfo = productTable.getAllProudctInfo();
+						productInfo = productTable.getAllProudctInfo();//if productId empty, get all productinfo
 					}
 					//prints the data onto the GUI table
 				ProductTableModel model = new ProductTableModel(productInfo);
@@ -195,27 +189,60 @@ public class dbPage {
 		});
 		searchBtn.setBounds(6, 78, 134, 29);
 		frmClass.getContentPane().add(searchBtn);
-		
+	
 		showBtn = new JButton("Show Inventory");
-		showBtn.addActionListener(new ActionListener() {
+		showBtn.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
 			public void actionPerformed(ActionEvent e) {
-				
+				List<ProductInfo> productInfo = null;
+				try {
+					productInfo = productTable.getAllProudctInfo();
+					ProductTableModel model = new ProductTableModel(productInfo);
+					table.setModel(model);
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		showBtn.setBounds(6, 119, 134, 29);
 		frmClass.getContentPane().add(showBtn);
 		
 		addBtn = new JButton("Add Product");
+		
+		addBtn.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
+			public void actionPerformed(ActionEvent e) {
+				List<ProductInfo> productInfo = null;
+				try {
+				
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		addBtn.setBounds(6, 160, 134, 29);
 		frmClass.getContentPane().add(addBtn);
 		
 		deleteBtn = new JButton("Delete Product");
+		deleteBtn.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
+			public void actionPerformed(ActionEvent e) {
+				List<ProductInfo> productInfo = null;
+				try {
+				
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		deleteBtn.setBounds(6, 201, 134, 29);
 		frmClass.getContentPane().add(deleteBtn);
 		
 		editBtn = new JButton("Edit Data");
 		editBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			
 			}
 		});
 		editBtn.setBounds(6, 242, 134, 29);
