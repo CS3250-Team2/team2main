@@ -212,9 +212,19 @@ public class dbPage {
 		
 		addBtn.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
 			public void actionPerformed(ActionEvent e) {
-				List<ProductInfo> productInfo = null;
-				try {
+				//getting the user inputs from the textfield
+
+				double quantity = Double.valueOf(quantitytextField.getText());
+				double wholesale = Double.valueOf(wholesaletextField.getText());
+				double salePrce = Double.valueOf(salepricetextField.getText());
+				String supplierID = supplierIDtextField.getText();
+				String productID = productIDtextField.getText();
 				
+				
+				try {
+				 //calling to methid to query into database to add new entry	
+				productTable.addProduct(productID, quantity, wholesale, salePrce, supplierID); 
+					
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -225,10 +235,16 @@ public class dbPage {
 		frmClass.getContentPane().add(addBtn);
 		
 		deleteBtn = new JButton("Delete Product");
-		deleteBtn.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
+		deleteBtn.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) {
-				List<ProductInfo> productInfo = null;
+				
+				// get user input for product ID to query mysql database to delete 
 				try {
+					
+					String productID = productIDtextField.getText();
+					
+					// method to query to mysql database taking input
+					productTable.Delete(productID);
 				
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
