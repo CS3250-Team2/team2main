@@ -78,22 +78,20 @@ public class ProductTable {
     	return list;
     }
     
-    public void addProduct(ProductInfo theproduct) {
+	 
+    //method to add new entry for new product into inventory database
+	
+    public void addProduct(String productID, double Quantity, double Wholesale , double Saleprice , String SupplierID) {
     	PreparedStatement statement = null; 
-    	ResultSet rs = null;
+    
     	try {
 
     		 String q = "INSERT INTO productInfo (ProductID, Quantity, Wholesale, Saleprice, SupplierID )" //state to call to table and columns in mySql
-    					+ "VALUES (?,?,?,?,?)";//values from data obtain from user input*/
-    		 statement= connection.prepareStatement (q);
+    				+ "VALUES ('"+ productID +"', '"+Quantity+"',  '"+Wholesale+"', '"+Saleprice+"', '"+SupplierID+"')";//values from data obtain from user input
+    		 	statement= connection.prepareStatement (q);
    		 
-    		 	statement.setString(1, theproduct.getProductId());
-    		 	statement.setDouble(2, theproduct.getQuantity());
-    		 	statement.setDouble(3, theproduct.getWholesale());
-    		 	statement.setDouble(4, theproduct.getSalePrice());
-    		 	statement.setString(5, theproduct.getSupplierId());
-   		 
-    		 	statement.executeUpdate();//to update information in database with new entry
+    		
+    		 	statement.executeUpdate(q);//to update information in database with new entry
    		 
    		 
     		 	statement.close();
@@ -101,24 +99,24 @@ public class ProductTable {
     	catch (SQLException e) {       //to check if the db connection was successful or not
 	        System.out.println("Oops, error!");
 	        e.printStackTrace();
-	     } 
+	     }
     }
-	public void UpdateInventory(ProductInfo product) {
+
+
+//to delete from table the entire row containing information on product using product ID
+	
+    public void Delete(String input) {//deletes entire row containing all information on product
+
 		  
     	 try {
     	    
-    		 String q = ("Update productInfo" + "set productid = ?, quantity = ?, wholesale =?, saleprice = ?, supllier=?" + "where productid=");
+    		 String q = "DELETE FROM productInfo WHERE ProductID = '"+input+"'";
     		 statement= connection.prepareStatement (q);
     		 
-    		 statement.setString(1, product.getProductId());
-    		 statement.setDouble(2, product.getQuantity());
-    		 statement.setDouble(3, product.getWholesale());
-    		 statement.setDouble(4, product.getSalePrice());
-    		 statement.setString(5, product.getSupplierId());
-    		 
-    		 statement.executeUpdate();//to update information in database with new entry
-    		 
-    		 
+		 statement= connection.prepareStatement (q);
+		 
+    		 statement.executeUpdate(q);//to update information in database with new entry
+    		    		 
     		 statement.close();
     	 }
     	 catch (SQLException e) {       //to check if the db connection was successful or not
