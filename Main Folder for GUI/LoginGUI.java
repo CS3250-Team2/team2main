@@ -63,9 +63,9 @@ public class LoginGUI {
 		passwordText.setBounds(195, 100, 180, 26);
 		panel.add(passwordText);
 		
-		JLabel lblNewLabel = new JLabel("Username");
-		lblNewLabel.setBounds(40, 55, 107, 16);
-		panel.add(lblNewLabel);
+		JLabel lblUsernameLabel = new JLabel("Username");
+		lblUsernameLabel.setBounds(40, 55, 107, 16);
+		panel.add(lblUsernameLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Password");
 		lblNewLabel_1.setBounds(40, 105, 107, 16);
