@@ -8,16 +8,18 @@ CREATE table productInfo(ProductID CHAR(12),
 select * FROM productInfo;
 
 use Sprint1;
-CREATE table userInfo(userName CHAR(18),
-					  pass CHAR(18),
-                      authorization CHAR (2));
-			
-
+CREATE table userInfo(
+		      userName CHAR(18),
+		      pass CHAR(18),
+                      authorization int (2),
+		      FirstName Char(25),
+                      LastName CHAR(25),
+		      email CHAR(25));
 select * FROM userInfo;
 
 use Sprint1;
 CREATE table orders (Date DATE,
-		      cust_email CHAR(25),
+					  cust_email CHAR(25),
                       cust_location double,
                       product_id  CHAR(12),
                       product_quantity double);
