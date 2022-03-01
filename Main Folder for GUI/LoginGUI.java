@@ -6,15 +6,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class LoginGUI {
-
 	private JFrame frame;
 	private JTextField usernameText;
-	private JPasswordField passwordText;
+	//private JPasswordField passwordText;
+	private JTextField passwordText;
 
 	/**
 	 * Launch the application.
@@ -63,9 +65,9 @@ public class LoginGUI {
 		passwordText.setBounds(195, 100, 180, 26);
 		panel.add(passwordText);
 		
-		JLabel lblUsernameLabel = new JLabel("Username");
-		lblUsernameLabel.setBounds(40, 55, 107, 16);
-		panel.add(lblUsernameLabel);
+		JLabel lblNewLabel = new JLabel("Username");
+		lblNewLabel.setBounds(40, 55, 107, 16);
+		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Password");
 		lblNewLabel_1.setBounds(40, 105, 107, 16);
@@ -73,36 +75,93 @@ public class LoginGUI {
 		
 		JButton btnNewButton = new JButton("Login");
 		btnNewButton.addActionListener(new ActionListener() {
+			
 			private int authorization;
 
 			public void actionPerformed(ActionEvent e) {
-			String userName = usernameText.getText();
+//					
+				String userName = usernameText.getText();
+				String pass = passwordText.getText();
+				
 				
 				UserLogin check = new UserLogin();
 				
-				try {
-					 authorization = check.searcAuthroization(userName);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				//method to verify if username and password entered match account in database
+				
+				int checkLogin = check.checkAccount(check.checkUserName(userName), check.checkPassword(pass));
+				
+					//method to check if employee or customer login
+					if (checkLogin == 1) {
+						
+						try {
+							authorization = check.searcAuthroization(userName);
+							
+							//employee login
+							if( authorization == 0) {
+							
+									dbPage nw = new dbPage();//calls to GUI for employee
+									
+									nw.NewScreen();}
+							
+							//customer login
+							else if (authorization == 1) {
+									
+									CustomerGUI nw2 = new CustomerGUI();//calls to GUI for customers
+									
+									nw2.NewScreen();}
+						}
+						
+					
+						
+						catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+					
+					}
+				
+					else {
+						
+					
+					JOptionPane.showMessageDialog(null, "No account found." );//"Error Message", JOptionPane.ERROR);
+						
+					
+					
+							//JOptionPane.showMessageDialog(null, "No account found.", "Error Message", JOptionPane.ERROR)			}
+				
+					}	
+					
 				}
-				
-				if( authorization == 0) {
-				dbPage nw = new dbPage();//calls to GUI for employee
-				nw.NewScreen();}
-				
-				else {
-				CustomerGUI nw2 = new CustomerGUI();//calls to GUI for customers
-				nw2.NewScreen();}
-				
-			}
+					
+	
 			
 		});
+		
+		
 		btnNewButton.setBounds(40, 171, 117, 29);
 		panel.add(btnNewButton);
 		
 		JButton createAccount = new JButton("Create Account");
 		createAccount.setBounds(226, 171, 149, 29);
 		panel.add(createAccount);
+		
+		JButton guest = new JButton("Guest Login");
+		
+		guest.setBounds(126, 210, 149, 29);
+		
+		guest.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				CustomerGUI nw2 = new CustomerGUI();//calls to GUI for customers
+				nw2.NewScreen();
+			}
+		});
+		//frmClass.getContentPane().add(guest);
+		
+		panel.add(guest);
 	}
+	
+	
 }
