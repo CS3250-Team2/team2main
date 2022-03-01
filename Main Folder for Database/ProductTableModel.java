@@ -15,7 +15,7 @@ class ProductTableModel extends AbstractTableModel  {
 	private static final int saleprice_col = 3;
 	private static final int supplierID_col = 4;
 	
-	private String[] columnNames = { "Product ID", "Quantity", "Sale's Price", "Supplier ID"};
+	private String[] columnNames = { "Product ID", "Quantity", "Wholesale","Sale's Price", "Supplier ID"};
 	private List<ProductInfo> productInfo;
 	
 	public ProductTableModel(List<ProductInfo> theProductinfo) {
