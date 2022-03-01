@@ -35,6 +35,7 @@ public class dbPage {
 	private JFrame frmClass;
 	private JTable table;
 	private ProductTable productTable;
+	private OrderTable orderTable;
 	/**
 	 * Launch the application.
 	 */
@@ -69,6 +70,8 @@ public class dbPage {
 	private JTextField 	salepricetextField;
 	private JLabel suplierIdLabel;
 	private JButton exitDbBtn;
+	private JTextField orderIDtextField;
+	private JButton orderBtn;
 	String authorization; 
 	
 	/**
@@ -77,6 +80,7 @@ public class dbPage {
 	public dbPage() {
 		try {
 			productTable = new ProductTable();
+			orderTable = new OrderTable();
 		}
 		catch (Exception exc) {       //to check if the db connection was successful or not
 	        System.out.println("Oops, error!");
@@ -156,9 +160,6 @@ public class dbPage {
 		suplierIdLabel.setBounds(469, 12, 95, 16);
 		frmClass.getContentPane().add(suplierIdLabel);
 		
-		exitDbBtn = new JButton("Exit Database");
-		exitDbBtn.setBounds(6, 283, 134, 29);
-		frmClass.getContentPane().add(exitDbBtn);
 		
 		searchBtn = new JButton("Search Inventory");
 		searchBtn.addActionListener(new ActionListener() {
@@ -212,8 +213,7 @@ public class dbPage {
 		
 		addBtn.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
 			public void actionPerformed(ActionEvent e) {
-				//getting the user inputs from the textfield
-
+				
 				double quantity = Double.valueOf(quantitytextField.getText());
 				double wholesale = Double.valueOf(wholesaletextField.getText());
 				double salePrce = Double.valueOf(salepricetextField.getText());
@@ -222,9 +222,8 @@ public class dbPage {
 				
 				
 				try {
-				 //calling to methid to query into database to add new entry	
-				productTable.addProduct(productID, quantity, wholesale, salePrce, supplierID); 
 					
+				productTable.addProduct(productID, quantity, wholesale, salePrce, supplierID);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -235,15 +234,12 @@ public class dbPage {
 		frmClass.getContentPane().add(addBtn);
 		
 		deleteBtn = new JButton("Delete Product");
-		deleteBtn.addActionListener(new ActionListener() { 
+		deleteBtn.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
 			public void actionPerformed(ActionEvent e) {
 				
-				// get user input for product ID to query mysql database to delete 
 				try {
 					
 					String productID = productIDtextField.getText();
-					
-					// method to query to mysql database taking input
 					productTable.Delete(productID);
 				
 				} catch (Exception e1) {
@@ -258,11 +254,49 @@ public class dbPage {
 		editBtn = new JButton("Edit Data");
 		editBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				//double quantity = Double.valueOf(quantitytextField.getText());
+				//double wholesale = Double.valueOf(wholesaletextField.getText());
+				//double salePrce = Double.valueOf(salepricetextField.getText());
+				String supplierID = supplierIDtextField.getText();
+				String productID = productIDtextField.getText();
+			
+				//if(supplierID != null) {
+						productTable.EditInventoryString(productID, "supplierID", supplierID);
+					//}
+			
 			
 			}
+			
 		});
 		editBtn.setBounds(6, 242, 134, 29);
 		frmClass.getContentPane().add(editBtn);
+		
+		
+		orderBtn = new JButton("Customer Orders");
+		orderBtn.setBounds(6, 283, 134, 29);
+		//when button press action to show all orders from customers.
+		orderBtn.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
+			public void actionPerformed(ActionEvent e) {
+				List<OrderInfo> orderInfo = null;
+				try {
+					orderInfo = orderTable.getAllOrderInfo();
+					OrderTableModel model = new OrderTableModel(orderInfo);
+					table.setModel(model);
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		frmClass.getContentPane().add(orderBtn);
+		
+		
+		exitDbBtn = new JButton("Exit Database");
+		exitDbBtn.setBounds(6, 323, 134, 29);
+		frmClass.getContentPane().add(exitDbBtn);
+		
 		
 		productIDtextField = new JTextField();
 		productIDtextField.setBounds(6, 40, 130, 26);
