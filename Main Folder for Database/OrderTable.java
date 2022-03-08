@@ -1,4 +1,5 @@
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
 
 public class OrderTable {
 
@@ -96,6 +98,22 @@ private OrderInfo convertRowToProduct(ResultSet rs) throws SQLException {
 	 return tempOrderInfo;
 	}
 
+public void addOrder(LocalDate date, String cust_email, double cust_Location , String ProductID , double Quantity) {
 
+    try {
+
+         String sql5 = "INSERT INTO orders (DATE, cust_email, cust_location, product_id, product_quantity )" //state to call to table and columns in mySql
+                + "VALUES ('"+ date +"' , '"+cust_email+"','"+cust_Location+"','"+ProductID+"','"+Quantity+"')";//values from data obtain from user input
+             PreparedStatement statement=connection.prepareStatement(sql5);
+
+
+             statement.executeUpdate(sql5);//to update information in database with new entry
+
+             statement.close();
+    }
+    catch (SQLException e) {       //to check if the db connection was successful or not
+        System.out.println("Oops, error!");
+        e.printStackTrace();
+     }
 }
-
+}
