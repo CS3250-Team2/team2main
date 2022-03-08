@@ -90,7 +90,7 @@ public class dbPage {
 		//Authorization permission = new Authorization();
 		 String url = "jdbc:mysql://localhost:3306/Sprint1";
 	     String username = "root";
-	     String password = "password123";
+	     String password = "ZHk37_fTdZZ4bnkp";
 		
 		//authorization = permission.getPermission();
 	     initialize();
@@ -262,7 +262,7 @@ public class dbPage {
 				String productID = productIDtextField.getText();
 			
 				//if(supplierID != null) {
-						productTable.EditInventoryString(productID, "supplierID", supplierID);
+						//productTable.EditInventoryString(productID, "supplierID", supplierID);
 					//}
 			
 			
