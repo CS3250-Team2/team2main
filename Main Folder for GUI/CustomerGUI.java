@@ -139,8 +139,8 @@ public class CustomerGUI {
 		frmClass.getContentPane().add(datetextField);
 		datetextField.setColumns(10);
 		
-		dateLabel = new JLabel("Date");
-		dateLabel.setBounds(469, 12, 95, 16);
+		dateLabel = new JLabel("Date YYYY-MM-DD");
+		dateLabel.setBounds(469, 12, 200, 16);
 		frmClass.getContentPane().add(dateLabel);
 		
 		exitDbBtn = new JButton("Exit Database");
