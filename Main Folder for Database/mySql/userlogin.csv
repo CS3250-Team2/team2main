@@ -1,4 +1,4 @@
-userName,pass,authorization
+userName,pass,authorization,firstName,LastName,email
 Manager,password,0
 Tram,test,1
 Tony,test,0
