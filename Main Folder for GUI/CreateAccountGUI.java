@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.awt.event.ActionEvent;
 
 public class CreateAccountGUI extends JFrame {
+	
+	private UserInfo userInfo;
 
 	Connection connect = null;
 	private JPanel contentPane;
@@ -19,9 +21,11 @@ public class CreateAccountGUI extends JFrame {
 	private JTextField txtLastName;
 	private JTextField txtEmail;
 	private JTextField txtPassword;
-//	private UserInfo userInfo;
-
+	private JTextField txtAuthorization;
+	private JLabel lblUserName;
+	private JTextField txtUserName;
 	String authorization; 
+	
 
 	/**
 	 * Launch the application.
@@ -57,18 +61,13 @@ public class CreateAccountGUI extends JFrame {
 	public CreateAccountGUI() {
 		
 		try {
-		//	userInfo = new UserInfo();
+		userInfo = new UserInfo();
 		
 		}
 		catch (Exception exc) {       //to check if the db connection was successful or not
 	        System.out.println("Oops, error!");
 	      //  JOptionPane.showMessageDialog(this, "Error:" + exc, "Error", JOptionPane.ERROR_MESSAGE);
 	     }
-		
-		//Authorization permission = new Authorization();
-		 String url = "jdbc:mysql://localhost:3306/Sprint1";
-	     String username = "root";
-	     String password = "password123";
 		
 
 		
@@ -115,6 +114,24 @@ public class CreateAccountGUI extends JFrame {
 		contentPane.add(txtPassword);
 		txtPassword.setColumns(10);
 		
+		JLabel lblAuthorization = new JLabel("Authorization");
+		lblAuthorization.setBounds(22, 280, 68, 14);
+		contentPane.add(lblAuthorization);
+		
+		txtAuthorization = new JTextField();
+		txtAuthorization.setBounds(125, 277, 96, 20);
+		contentPane.add(txtAuthorization);
+		txtAuthorization.setColumns(10);
+		
+		lblUserName = new JLabel("UserName");
+		lblUserName.setBounds(22, 227, 50, 14);
+		contentPane.add(lblUserName);
+		
+		txtUserName = new JTextField();
+		txtUserName.setBounds(125, 224, 96, 20);
+		contentPane.add(txtUserName);
+		txtUserName.setColumns(10);
+		
 		JButton enterBtn = new JButton("Enter");
 		enterBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -122,11 +139,12 @@ public class CreateAccountGUI extends JFrame {
 				String LastName = txtLastName.getText();
 			    String email = txtEmail.getText();
 			    String pass = txtPassword.getText();
-				
+			    int authoriz = txtAuthorization.getX();
+				String userName = txtUserName.getText();
 				
 				try {
 					
-		//	userInfo.addProduct(FirstName, LastName, email, pass);
+		userInfo.createUser(userName, pass, authoriz, FirstName, LastName, email);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -134,7 +152,9 @@ public class CreateAccountGUI extends JFrame {
 				
 			}
 		});
-		enterBtn.setBounds(90, 216, 89, 23);
+		enterBtn.setBounds(287, 206, 89, 23);
 		contentPane.add(enterBtn);
+		
+		
 	}
 }

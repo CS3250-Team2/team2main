@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="colin/src"/>
+	<classpathentry kind="src" path="david/inventoryGUI/src"/>
+	<classpathentry kind="src" path="Main Folder for Database"/>
+	<classpathentry kind="src" path="Main Folder for GUI"/>
+	<classpathentry kind="src" path="tram"/>
+	<classpathentry kind="lib" path="colin/libs/mysql-connector-java-8.0.28.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
