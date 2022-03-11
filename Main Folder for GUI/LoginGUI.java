@@ -100,6 +100,7 @@ public class LoginGUI {
 							if( authorization == 0) {
 							
 									dbPage nw = new dbPage();//calls to GUI for employee
+								
 									
 									nw.NewScreen();}
 							
@@ -143,6 +144,13 @@ public class LoginGUI {
 		panel.add(btnNewButton);
 		
 		JButton createAccount = new JButton("Create Account");
+		createAccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				CreateAccountGUI create = new CreateAccountGUI();
+				create.setVisible(true);
+			}
+		});
 		createAccount.setBounds(226, 171, 149, 29);
 		panel.add(createAccount);
 		

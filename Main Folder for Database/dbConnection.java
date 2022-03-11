@@ -1,4 +1,4 @@
-package sprintProject;
+
 import java.sql.*;
 
 public class dbConnection{
@@ -7,7 +7,7 @@ public class dbConnection{
 	 {
 		 String url = "jdbc:mysql://localhost:3306/sprint1";
 	     String username = "root";
-	     String password = "password123";
+	     String password = "David3341";
 	     
 	     Connection connection = null;
 	     

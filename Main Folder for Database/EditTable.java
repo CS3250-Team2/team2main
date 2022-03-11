@@ -1,11 +1,10 @@
-package sprint1Project;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import sprintProject.dbConnection;
+
 
 import java.sql.ResultSet;
 import java.sql.DatabaseMetaData;
@@ -24,7 +23,8 @@ public class EditTable {
     String q;
     
     
-    Connection connection =new dbConnection().getConnection();//open connection to mySql database
+    Connection connection = new dbConnection().getConnection();//open connection to mySql database
+	String authorization;
     
     
     public static void main(String[] args) throws ClassNotFoundException {
@@ -42,11 +42,12 @@ public class EditTable {
                              		+ "\n6.) Choose 6 to delete product information inventory."
                              		+ "\n7.) Choose 7 to delete specific data from inventory."
                              		+ "\n8.) Choose 8 to edit specific data from inventory."
+                             		+ "\n9.) Choose 9 to edit user authoirzation."
                              		+ "\n9.) Choose 9 to EXIT. ";
                      System.out.println(menu);
                      number = in.nextInt();
                      		
-	            	} while (number < 0 || number > 9);
+	            	} while (number < 0 || number > 10);
 	            	
 	            	switch(number) {
 	            		case 1:// Add user info
@@ -87,20 +88,25 @@ public class EditTable {
 	            		call.EditColumn(name);
 	            			break;
 	            			
+	            		case 9:
+	            			call.EditAuthorization();
+	            			System.out.println("testing 9.");
+	            			break;
+	            			
 	        	       default:
 	        	    	   System.out.println("Goodbye.");
-	        	    	   break;
-	            	
+	        	    	   break;	            	
 	            	}
 	            
 	        
 	        
-	            }while (number != 9); 
-	        
+	            }while (number != 10); 
+	            
+	            
     }
 	
 
-    public void UserInfo() {//calls to database table to enter data into table for user login and password
+    public void UserInfo(  ) {//calls to database table to enter data into table for user login and password
     	
     	try {
     		String sql = "INSERT INTO userInfo (userName, pass) VALUES (?,?)";
@@ -111,10 +117,11 @@ public class EditTable {
             userName = in.next();	        	       //scanner input for username 
             System.out.println("Enter your password: ");
             pass = in.next();						   //scanner input for pass
-            
+            authorization = "1"; //customers will have 1 and employee will have 0, shows the difference between customer and employee logging in
             
             statement.setString(1, userName); //row position 1 and userName column
             statement.setString(2, pass);     //row position 2 and pass column
+            statement.setString(3,authorization ); // Automatically set account as customer account
             
             int rows = statement.executeUpdate(); //checking if a row was inserted 
             if (rows > 0) {
@@ -129,6 +136,14 @@ public class EditTable {
     	     }
     }
 
+    
+    public void EditAuthorization() {
+
+ //Authorization newAuth = new Authorization();
+ //newAuth.newAuthorization();
+		
+    	
+    }
     public void SearchInventory() {// function to search and print for single entry in table of productinfo on mysql database
     	try {
     		 String sql2 = "select ProductID, Quantity, Wholesale, Saleprice, SupplierID from productInfo where ProductID = ?";
@@ -136,7 +151,7 @@ public class EditTable {
 			  System.out.println("Enter a productId: ");
 			  String productId = in.next ();
 			  statement.setString(1, productId);
-			  rs = statement.executeQuery();
+			  rs = statement.executeQuery()d
 			  while (rs.next()) {
 			      String productID =   rs.getString("ProductID");
 			      double Quantity = rs.getDouble("Quantity");
@@ -192,11 +207,16 @@ public class EditTable {
     
     	 try {
     	    	
-    		 String sql5 = "INSERT INTO productInfo (ProductID, Quantity, Wholesale, Saleprice, SupplierID )" //state to call to table and columns in mySql
-			+ "VALUES ('"+ productID +"', '"+Quantity+"',  '"+Wholesale+"', '"+Saleprice+"', '"+SupplierID+"')";//values from data obtain from user input
-		
+    		String sql5 = "INSERT INTO productInfo (ProductID, Quantity, Wholesale, Saleprice, SupplierID )" //state to call to table and columns in mySql
+			+ "VALUES ('"+ productID +"', '"+Quantity+"',  '"+Wholesale+"', '"+Saleprice+"', '"+SupplierID+"')";//values from data obtain from user input*/
+    		 
+    		// String sql5 = ("Update productInfo" + "set productid = ?, quantity = ?, wholesale =?, saleprice = ?, supllier=?" + "where productid=");
     		 statement= connection.prepareStatement (sql5);
     		 statement.executeUpdate();//to update information in database with new entry
+    		 
+    		 
+    		 
+    		 
     		 
     		 statement.close();
     	 }
@@ -237,7 +257,7 @@ public class EditTable {
 
 	public void PrintSelectColumns() {
 		int choice;
-		ConnectDB select = new ConnectDB();
+		EditTable select = new EditTable();
 		String sql4 = "select * from productInfo";
 	try {	
 		statement= connection.prepareStatement (sql4);
@@ -410,8 +430,8 @@ public void EditColumn(String name) {//edit  spelect data from information on pr
 					name = "SupplierId";
 					break;
 			}
-		return name;
-	
-		
+		return name;		
 	}
+	
+	
 }
