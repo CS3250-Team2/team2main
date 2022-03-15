@@ -2,7 +2,10 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -15,6 +18,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 
 //public static void NewScreen() {
@@ -77,6 +82,8 @@ public class dbPage {
 	/**
 	 * Create the application.
 	 */
+	
+
 	public dbPage() {
 		try {
 			productTable = new ProductTable();
@@ -117,6 +124,49 @@ public class dbPage {
 		frmClass.getContentPane().add(scrollPane);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public  void mouseClicked(MouseEvent arg0) {
+				PreparedStatement statement = null; 
+				//java.sql.Statement state = null; 
+			    ResultSet rs = null;
+			    String q;
+			    Connection connection = new dbConnection().getConnection();//open connection to mySql database
+				
+				
+		    	try {
+		    		int row = table.getSelectedRow();
+		    		String ProductId = (table.getModel().getValueAt(row, 0)).toString();
+		        	q = ("select * from productInfo where productId = '"+ProductId+"' ");
+		    		 statement = connection.prepareStatement (q);    //connection to database
+		        	rs = statement.executeQuery(q);
+		    
+
+		        	while(rs.next()) {//gets data from database
+		        		
+		        	
+		        	String productId = rs.getString("productId");
+		        	double quantity= rs.getDouble("quantity");
+		        	double salePrice = rs.getDouble("salePrice");
+		        	double wholesale = rs.getDouble("wholesale");
+		        	String supplierId = rs.getString("supplierId");
+		        	
+				quantitytextField.setText(String.valueOf(quantity));
+				wholesaletextField.setText(String.valueOf(wholesale));
+				salepricetextField.setText(String.valueOf(salePrice));
+				supplierIDtextField.setText(supplierId);
+				productIDtextField.setText(productId);
+		        	}
+				statement.close();
+	    	}
+	    	catch (SQLException e) {       //to check if the db connection was successful or not
+		        System.out.println("Oops, error!");
+		        e.printStackTrace();
+		     } 
+				
+	}
+});
+		
 		scrollPane.setViewportView(table);
 				
 		prodIdLabel = new JLabel("Product ID");
@@ -181,6 +231,8 @@ public class dbPage {
 					//prints the data onto the GUI table
 				ProductTableModel model = new ProductTableModel(productInfo);
 					table.setModel(model);
+									
+					
 				}
 				
 				catch(Exception exc){
@@ -255,16 +307,15 @@ public class dbPage {
 		editBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//double quantity = Double.valueOf(quantitytextField.getText());
-				//double wholesale = Double.valueOf(wholesaletextField.getText());
-				//double salePrce = Double.valueOf(salepricetextField.getText());
+				double quantity = Double.valueOf(quantitytextField.getText());
+				double wholesale = Double.valueOf(wholesaletextField.getText());
+				double salePrce = Double.valueOf(salepricetextField.getText());
 				String supplierID = supplierIDtextField.getText();
 				String productID = productIDtextField.getText();
 			
-				//if(supplierID != null) {
-						productTable.EditInventoryString(productID, "supplierID", supplierID);
-					//}
 			
+						productTable.EditInventory(productID, quantity, wholesale , salePrce, supplierID);
+		
 			
 			}
 			
@@ -278,16 +329,8 @@ public class dbPage {
 		//when button press action to show all orders from customers.
 		orderBtn.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
 			public void actionPerformed(ActionEvent e) {
-				List<OrderInfo> orderInfo = null;
-				try {
-					orderInfo = orderTable.getAllOrderInfo();
-					OrderTableModel model = new OrderTableModel(orderInfo);
-					table.setModel(model);
-					
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				CustomerOrderGUI nw = new CustomerOrderGUI();
+				nw.NewScreen();
 			}
 		});
 		frmClass.getContentPane().add(orderBtn);
