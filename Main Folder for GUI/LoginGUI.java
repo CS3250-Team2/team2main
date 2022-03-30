@@ -92,23 +92,29 @@ public class LoginGUI {
 				
 					//method to check if employee or customer login
 					if (checkLogin == 1) {
-						
+						LoginGUI window = new LoginGUI();
 						try {
 							authorization = check.searcAuthroization(userName);
 							
 							//employee login
 							if( authorization == 0) {
+									
 							
 									dbPage nw = new dbPage();//calls to GUI for employee
 									
-									nw.NewScreen();}
+									nw.NewScreen();
+									window.frame.setVisible(false);
+									//window.dispose();
+									
+							}
 							
 							//customer login
 							else if (authorization == 1) {
 									
 									CustomerGUI nw2 = new CustomerGUI();//calls to GUI for customers
 									
-									nw2.NewScreen();}
+										nw2.NewScreen();}
+							frame.setVisible(false);
 						}
 						
 					
@@ -117,6 +123,7 @@ public class LoginGUI {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
+						
 						
 					
 					}
@@ -144,6 +151,13 @@ public class LoginGUI {
 		
 		JButton createAccount = new JButton("Create Account");
 		createAccount.setBounds(226, 171, 149, 29);
+		
+		createAccount.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
+			public void actionPerformed(ActionEvent e) {
+				CreateAccountGUI create = new CreateAccountGUI ();
+				create.NewScreen();
+			}
+		});
 		panel.add(createAccount);
 		
 		JButton guest = new JButton("Guest Login");
@@ -152,10 +166,10 @@ public class LoginGUI {
 		
 		guest.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
 			public void actionPerformed(ActionEvent e) {
-				
-				
+					
 				CustomerGUI nw2 = new CustomerGUI();//calls to GUI for customers
 				nw2.NewScreen();
+				frame.setVisible(false); 
 			}
 		});
 		//frmClass.getContentPane().add(guest);
