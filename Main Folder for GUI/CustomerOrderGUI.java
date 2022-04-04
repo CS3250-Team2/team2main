@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JTextArea;
 
 public class CustomerOrderGUI {
 	
@@ -66,6 +67,8 @@ public class CustomerOrderGUI {
 	private JButton exitDbBtn;
 	String authorization;
 	private JButton deleteBtn;
+	private JLabel lblNewLabel;
+	private JTextField OrderIdtextField;
 	
 	
 	/**
@@ -96,12 +99,12 @@ public class CustomerOrderGUI {
 	private void initialize() {
 		//JPanel panel = new JPanel();
 		frmClass = new JFrame();
-		frmClass.setBounds(100, 100, 662, 504);
+		frmClass.setBounds(100, 100, 800, 700);
 		frmClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmClass.getContentPane().setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(184, 82, 472, 388);
+		scrollPane.setBounds(184, 82, 600, 600);
 		frmClass.getContentPane().add(scrollPane);
 		
 		table = new JTable();
@@ -137,6 +140,7 @@ public class CustomerOrderGUI {
 		        	String date = rs.getString("DATE");
 		        	double custLocation = rs.getDouble("cust_location");
 		        	String custEmail = rs.getString("cust_email");
+		        	double orderId = rs.getDouble("order_id");
 		        	
 		        	DateTimeFormatter dateFormatter = 
 					        new DateTimeFormatterBuilder()
@@ -151,6 +155,7 @@ public class CustomerOrderGUI {
 				custEmailtextfield.setText(custEmail);
 				custLocationtextField.setText((String.valueOf(custLocation)));
 				ProductIDtextField.setText(productId);
+				OrderIdtextField.setText(String.valueOf(orderId));
 		        	}
 				statement.close();
 	    	}
@@ -273,7 +278,7 @@ public class CustomerOrderGUI {
 				String custEmail = custEmailtextfield.getText();
 				double custLocation = Double.valueOf(custLocationtextField.getText());
 				String ProductID = ProductIDtextField.getText();
-				
+
 				
 				DateTimeFormatter dateFormatter = 
 				        new DateTimeFormatterBuilder()
@@ -304,12 +309,113 @@ public class CustomerOrderGUI {
 			frmClass.getContentPane().add(addBtn);
 			
 			JButton updateBtn_1 = new JButton("Edit Order ");
+			
+			updateBtn_1.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
+				public void actionPerformed(ActionEvent e) {
+					
+					//get values from textfiles
+					double Quantity = Double.valueOf(quantitytextField.getText());				
+					String date = datetextField.getText();
+					String custEmail = custEmailtextfield.getText();
+					double custLocation = Double.valueOf(custLocationtextField.getText());
+					String ProductID = ProductIDtextField.getText();
+					double orderId = Double.valueOf(OrderIdtextField.getText());
+					
+					DateTimeFormatter dateFormatter = 
+					        new DateTimeFormatterBuilder()
+					            .parseCaseInsensitive()
+					            .appendPattern("yyyy-MM-dd")
+					            .toFormatter(Locale.ENGLISH);
+					
+					
+					LocalDate date2 = LocalDate.parse(date, dateFormatter);
+					System.out.println("this is quantity = "+Quantity);
+					System.out.println("email="+custEmail);
+					System.out.println("location="+custLocation);
+					System.out.println("producctid="+ProductID);
+					System.out.println("date= "+ date2);	
+					
+					
+					try {
+						
+						orderTable.editOrder(custEmail, custLocation,  Quantity,orderId);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			});
 			updateBtn_1.setBounds(6, 200, 134, 29);
 			frmClass.getContentPane().add(updateBtn_1);
 			
 			deleteBtn = new JButton("Delete Order ");
+			deleteBtn.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
+				public void actionPerformed(ActionEvent e) {
+						
+					double orderId = Double.valueOf(OrderIdtextField.getText());// get text from table and use orderId to delete entire order selected 
+					
+					try {
+						
+					orderTable.Delete(orderId);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			});
+			
+			
+			
 			deleteBtn.setBounds(6, 243, 134, 29);
 			frmClass.getContentPane().add(deleteBtn);
+			
+			JButton orderHx = new JButton("search by email");
+			orderHx.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
+				public void actionPerformed(ActionEvent e) {			
+					String custEmail = custEmailtextfield.getText();
+					List<OrderInfo> orderInfo = null;
+					try {
+						orderInfo = orderTable.searchAllOrderInfo(custEmail);
+						OrderTableModel model = new OrderTableModel(orderInfo);
+						table.setModel(model);
+						
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				});
+			
+			orderHx.setBounds(12, 323, 124, 26);
+			frmClass.getContentPane().add(orderHx);
+			
+			
+			JButton btnSearchByOrder = new JButton("search by order Id");
+			
+			btnSearchByOrder.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
+				public void actionPerformed(ActionEvent e) {			
+					
+					//orderTable.editOrderId();
+				}
+				});
+			btnSearchByOrder.setBounds(12, 362, 124, 26);
+			frmClass.getContentPane().add(btnSearchByOrder);
+			
+			
+			lblNewLabel = new JLabel("Order Number");
+			lblNewLabel.setBounds(637, 13, 78, 14);
+			frmClass.getContentPane().add(lblNewLabel);
+			
+			JTextArea textArea = new JTextArea();
+			textArea.setBounds(697, 51, -60, 22);
+			frmClass.getContentPane().add(textArea);
+			
+			OrderIdtextField = new JTextField();
+			OrderIdtextField.setBounds(629, 43, 104, 20);
+			frmClass.getContentPane().add(OrderIdtextField);
+			OrderIdtextField.setColumns(10);
+			
+			
 		
 		
 		
