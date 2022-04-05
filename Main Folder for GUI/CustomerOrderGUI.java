@@ -69,7 +69,7 @@ public class CustomerOrderGUI {
 	private JButton deleteBtn;
 	private JLabel lblNewLabel;
 	private JTextField OrderIdtextField;
-	
+	private double oriQuantity;
 	
 	/**
 	 * Create the application.
@@ -141,7 +141,7 @@ public class CustomerOrderGUI {
 		        	double custLocation = rs.getDouble("cust_location");
 		        	String custEmail = rs.getString("cust_email");
 		        	double orderId = rs.getDouble("order_id");
-		        	
+		        	oriQuantity = rs.getDouble("product_quantity");
 		        	DateTimeFormatter dateFormatter = 
 					        new DateTimeFormatterBuilder()
 					            .parseCaseInsensitive()
@@ -343,6 +343,18 @@ public class CustomerOrderGUI {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+					
+					double difference = (Math.abs(oriQuantity- Quantity));
+					
+					if (oriQuantity > Quantity ) {
+						//if ordering less add quantity of product back into inventory
+						
+					}
+					else {
+						//if ordering more subtract from inventory
+						
+					}
+					
 				}
 			});
 			updateBtn_1.setBounds(6, 200, 134, 29);
@@ -395,7 +407,17 @@ public class CustomerOrderGUI {
 			btnSearchByOrder.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
 				public void actionPerformed(ActionEvent e) {			
 					
-					//orderTable.editOrderId();
+					double orderId = Double.valueOf(OrderIdtextField.getText());// get text from table and use orderId to delete entire order selected 
+					List<OrderInfo> orderInfo = null;
+					try {
+						orderInfo = orderTable.searchAllOrderInfo2(orderId);
+						OrderTableModel model = new OrderTableModel(orderInfo);
+						table.setModel(model);
+						
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 				});
 			btnSearchByOrder.setBounds(12, 362, 124, 26);

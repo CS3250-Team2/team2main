@@ -88,6 +88,7 @@ public class dbPage {
 		try {
 			productTable = new ProductTable();
 			orderTable = new OrderTable();
+			
 		}
 		catch (Exception exc) {       //to check if the db connection was successful or not
 	        System.out.println("Oops, error!");
@@ -289,11 +290,16 @@ public class dbPage {
 		deleteBtn.addActionListener(new ActionListener() { // connecting method to mysql database with GU to show inventory
 			public void actionPerformed(ActionEvent e) {
 				
+				double quantity = Double.valueOf(quantitytextField.getText());
+				double wholesale = Double.valueOf(wholesaletextField.getText());
+				double salePrce = Double.valueOf(salepricetextField.getText());
+				String supplierID = supplierIDtextField.getText();
+				String productID = productIDtextField.getText();
+				
+				
 				try {
 					
-					String productID = productIDtextField.getText();
-					productTable.Delete(productID);
-				
+				productTable.Delete(productID);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -301,6 +307,8 @@ public class dbPage {
 			}
 		});
 		deleteBtn.setBounds(6, 201, 134, 29);
+		
+		
 		frmClass.getContentPane().add(deleteBtn);
 		
 		editBtn = new JButton("Edit Data");

@@ -34,7 +34,7 @@ public class UserLogin {
 	        	
 	    		statement = connection.prepareStatement (q);  
 	    		statement.setString( 1, userName);//calling to first column to search 
-	        	rs = statement.executeQuery();
+	        	rs = statement.executeQuery();//reads database
 	    
 
 				while(rs.next()) {//gets data from database
