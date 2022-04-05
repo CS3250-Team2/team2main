@@ -152,19 +152,15 @@ public class ProductTable {
 		PreparedStatement statement = null; 
 	
 				try {
-					String q1 =  String.format("select * from productInfo  WHERE ProductID = %s", productID); //state to call to table and columns in mySql
-					String q =  String.format("Update productInfo set Quantity = %f WHERE SupplierID = %s",Quantity,SupplierID ); //state to call to table and columns in mySql
-					
-					
-					System.out.println("this is editString = "+ q);
-						statement = connection.prepareStatement (q1);    //connection to database
-						rs = statement.executeQuery(q1);
-						while(rs.next()) {
-						statement= connection.prepareStatement (q);
-		 
+					String q =  "UPDATE productInfo SET  Quantity = ?,Wholesale =?, Saleprice = ? WHERE ProductID=  ?";
+					statement= connection.prepareStatement (q);
+					statement.setDouble(1, Quantity);
+					statement.setDouble(2, Wholesale);
+					statement.setDouble(3, Saleprice);
+					statement.setString(4, productID);
 	
-						statement.executeUpdate(q);//to update information in database with new entry
-						}
+						statement.executeUpdate();//to update information in database with new entry
+						
 						statement.close();
 					}
 				catch (SQLException e) {       //to check if the db connection was successful or not
