@@ -16,6 +16,8 @@ public class CreateAccountGUI extends JFrame {
 	private UserInfo userInfo;
 
 	Connection connect = null;
+	private JFrame frmClass;
+
 	private JPanel contentPane;
 	private JTextField txtFirstName;
 	private JTextField txtLastName;
@@ -32,8 +34,19 @@ public class CreateAccountGUI extends JFrame {
 	 */
 	
 
-	
-	public static void main(String[] args) {
+	public static void NewScreen() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CreateAccountGUI window = new CreateAccountGUI();
+					window.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -51,11 +64,11 @@ public class CreateAccountGUI extends JFrame {
 		});
 		
 		
-	}
+	}*/
 
 	/**
-	 * Create the frame.
-	 */
+	 * Create the frame.*/
+	 
 	
 	
 	public CreateAccountGUI() {
@@ -68,8 +81,10 @@ public class CreateAccountGUI extends JFrame {
 	        System.out.println("Oops, error!");
 	      //  JOptionPane.showMessageDialog(this, "Error:" + exc, "Error", JOptionPane.ERROR_MESSAGE);
 	     }
-		
-
+		 initialize();
+	}
+	
+	public void initialize() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -139,19 +154,27 @@ public class CreateAccountGUI extends JFrame {
 				String LastName = txtLastName.getText();
 			    String email = txtEmail.getText();
 			    String pass = txtPassword.getText();
-			    int authoriz = txtAuthorization.getX();
+			    int authoriz = 1;
 				String userName = txtUserName.getText();
 				
 				try {
 					
 		userInfo.createUser(userName, pass, authoriz, FirstName, LastName, email);
+		CustomerGUI nw2 = new CustomerGUI();//calls to GUI for customers
+		nw2.NewScreen();
+		//frmClass.setVisible(false);
+		dispose();    
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
 			}
-		});
+		}
+			
+				
+				
+				);
 		enterBtn.setBounds(287, 206, 89, 23);
 		contentPane.add(enterBtn);
 		
