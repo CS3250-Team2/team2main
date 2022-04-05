@@ -108,6 +108,28 @@ public class UserLogin {
 		     } 
 			return exist;
 			   
-		   }
+		   } 
+		    
+	    public void guest(String email) {
+	    	PreparedStatement statement = null; 
+	    	
+			try {
+					String q = "INSERT INTO userInfo (userName, pass, authorization, firstName, lastName,email )" //state to call to table and columns in mySql
+					+ "VALUES (guest, guest , '"+ 1 +"',guest,guest,'"+ email +"')";//values from data obtain from user input
+	
+					statement= connection.prepareStatement (q);
+	 
+
+					statement.executeUpdate(q);//to update information in database with new entry
+	 
+					statement.close();
+				}
+			catch (SQLException e) {       //to check if the db connection was successful or not
+					System.out.println("Oops, error!");
+					e.printStackTrace();
+				} 
+	    	
+	    }
 	    
+	   
 	}

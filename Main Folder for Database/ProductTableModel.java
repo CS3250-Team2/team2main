@@ -8,7 +8,8 @@ import javax.swing.table.AbstractTableModel;
 
 class ProductTableModel extends AbstractTableModel  {
 	
-	private static final long serialVersionUID = -715697162861296537L;
+	//private static final long serialVersionUID = -715697162861296537L;
+	public final int OBJECT_COL = -1;
 	private static final int productID_col = 0;
 	private static final int quantity_col = 1;
 	private static final int wholesale_col = 2;

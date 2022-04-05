@@ -27,7 +27,7 @@ public class Finance {
 		 salePrice = rs.getDouble("salePrice");
 		 wholesale = rs.getDouble("wholesale");
 		 InvenQuantity = rs.getDouble("quantity");
-		
+			
        	}
        	if (quantity <=5) {
        	payment = salePrice * quantity;
@@ -37,8 +37,13 @@ public class Finance {
        		
        	
        	}
+       	System.out.println("inventory quantity before order = "+ InvenQuantity);
        	
        	InvenQuantity = InvenQuantity - quantity; 
+       	
+       	System.out.println("inventory quantity after order = "+ InvenQuantity);
+       	
+       	
        	checkout(productId, InvenQuantity );
 		}
 		catch (SQLException e) {       //to check if the db connection was successful or not
@@ -50,12 +55,12 @@ public class Finance {
 
 	
 	public void checkout(String productId, double quantity) {
-		
+		System.out.println("inventory quantity= "+ quantity);
 		try {
-			q = "Update productInfo set Quantity = '"+quantity+"' WHERE ProductID = '"+productId+"'";
+			q = "Update productInfo set Quantity = ? WHERE ProductID = '"+productId+"'";
    		 statement = connection.prepareStatement (q);    //connection to database
-   		//statement.setString( 1, productId);//calling to first column to search 
-       statement.executeQuery(q);	
+   		statement.setDouble( 1, quantity);//calling to first column to search 
+       statement.executeUpdate();	
 	}
 		catch (SQLException e) {       //to check if the db connection was successful or not
 	        System.out.println("Oops, error!");

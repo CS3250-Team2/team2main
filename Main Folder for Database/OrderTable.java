@@ -80,7 +80,35 @@ public class OrderTable {
     	return list;
     }
     
-   
+    public List<OrderInfo> searchAllOrderInfo2(double orderId)throws Exception{
+    	List<OrderInfo> list = new ArrayList<>();
+    	
+    	try {
+    		
+        	q = ("select * from orders where order_id like ? ");
+        	
+    		statement = connection.prepareStatement (q);  
+    		statement.setDouble( 1, orderId);//calling to first column to search 
+        	rs = statement.executeQuery();
+    
+
+        	while(rs.next()) {//gets data from database
+				OrderInfo tempOrderInfo = convertRowToProduct(rs);
+				list.add(tempOrderInfo);
+				
+			}
+						
+			statement.close();
+			rs.close();
+			
+		}
+    	catch (SQLException e) {       //to check if the db connection was successful or not
+	        System.out.println("Oops, error!");
+	        e.printStackTrace();
+	     } 
+    	return list;
+    }
+     
 	
 private OrderInfo convertRowToProduct(ResultSet rs) throws SQLException {
 
@@ -295,10 +323,14 @@ public void editOrder( String Email, double custLocation, double Quantity,double
 	try {
 		
 		String q = 
-			"UPDATE orders SET  product_quantity =  '"+Quantity+"' WHERE order_id =  '"+orderId+"'";
+			"UPDATE orders SET cust_email=?, cust_location=?, product_quantity =  ? WHERE order_id =  ?";
 			statement= connection.prepareStatement (q);
-			//statement.setDouble(1, Quantity);
-			//statement.setDouble(2, orderId);
+			statement.setString(1, Email);
+			statement.setDouble(2, custLocation);
+			statement.setDouble(3, Quantity);
+			statement.setDouble(4, orderId);
+			
+	       statement.executeUpdate();
 		
 		statement.close();
 	}

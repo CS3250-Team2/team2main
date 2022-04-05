@@ -7,13 +7,18 @@ import javax.swing.table.AbstractTableModel;
 class OrderTableModel extends AbstractTableModel  {
 	
 	
+	/**
+	 * 
+	 */
+	public final int OBJECT_COL = -1;
 	private static final int date_col = 0;
 	private static final int cust_email_col = 1;
 	private static final int cust_location_col = 2;
 	private static final int productId_col = 3;
 	private static final int product_quantity_col = 4;
+	private static final int orderId_col =5;
 	
-	private String[] columnNames = { "Order Date", "Customer Email", "Customer Location", "Product Id", "Product Quantity"};
+	private String[] columnNames = { "Order Date", "Customer Email", "Customer Location", "Product Id", "Product Quantity, Order Number"};
 	private List<OrderInfo> orderInfo;
 	
 	public OrderTableModel(List<OrderInfo> theOrderinfo) {
@@ -48,8 +53,10 @@ class OrderTableModel extends AbstractTableModel  {
 				return tempOrderInfo.getLocation();
 			case productId_col :
 				return tempOrderInfo.getOrderproductId();
-			default  :
+			case product_quantity_col :
 				return tempOrderInfo.getOrderquantity();
+			default  :
+				return tempOrderInfo.getOrderId();
 			
 			}
 		

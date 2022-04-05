@@ -1,14 +1,17 @@
+import java.util.Date;
 
 public class CustomerInfo {
 	private String userName;
     private String password;
     private String authorization;
-
+    
+   
     public CustomerInfo (String userName, String password, String authorization) {
 		super();
 		this.userName = userName;
 		this.password = password;
 		this.authorization = authorization;
+		
 		
 	}
     
@@ -26,8 +29,11 @@ public class CustomerInfo {
     public void setauthorization(String authorization) {
         this.authorization = authorization;
     }
-   
-   
+
+   public void UserInfo(String name, String lastname)
+   {
+	   do somehting 
+   }
   //toString()
     @Override
     public String toString() {
