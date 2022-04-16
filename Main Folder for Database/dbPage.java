@@ -98,7 +98,7 @@ public class dbPage {
 		//Authorization permission = new Authorization();
 		 String url = "jdbc:mysql://localhost:3306/Sprint1";
 	     String username = "root";
-	     String password = "password123";
+	     String password = "David3341";
 		
 		//authorization = permission.getPermission();
 	     initialize();
