@@ -23,7 +23,7 @@ class ConnectionTest {
 	@Test
 	public void testAuthorization() throws Exception {
 
-		System.out.println("check authorization");
+		System.out.println("User authorization pass");
 		String name = "Manager";
 		UserLogin test = new UserLogin();
 		assertEquals(0, test.searcAuthroization(name)); // The result will equal not null then junit test pass
