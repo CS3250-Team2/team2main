@@ -7,7 +7,7 @@ public class dbConnection{
 	 {
 		 String url = "jdbc:mysql://localhost:3306/sprint1";
 	     String username = "root";
-	     String password = "David3341";
+	     String password = "password123";
 	     
 	     Connection connection = null;
 	     
