@@ -25,8 +25,20 @@ class ConnectionTest {
 
 		System.out.println("User authorization pass");
 		String name = "Manager";
-		UserLogin test = new UserLogin();
-		assertEquals(0, test.searcAuthroization(name)); // The result will equal not null then junit test pass
+		String tram = "Tram";
+		String tony = "Tony";
+		String collin = "Collin";
+		String david = "David";
+		String test = "test";
+		
+				
+		UserLogin levelAccess = new UserLogin();
+		assertEquals(0, levelAccess.searcAuthroization(name)); // The result will equal not null then junit test pass
+	//	assertEquals(1, levelAccess.searcAuthroization(tram));
+		assertEquals(0, levelAccess.searcAuthroization(tony));
+	//	assertEquals(1, levelAccess.searcAuthroization(collin));
+		assertEquals(0, levelAccess.searcAuthroization(david));
+	//	assertEquals(1, levelAccess.searcAuthroization(test));
 	}
 
 
