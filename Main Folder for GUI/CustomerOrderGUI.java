@@ -19,6 +19,7 @@ import java.util.Locale;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -214,7 +215,17 @@ public class CustomerOrderGUI {
 		dateLabel.setBounds(469, 12, 200, 16);
 		frmClass.getContentPane().add(dateLabel);
 		
-		exitDbBtn = new JButton("Exit Database");
+		exitDbBtn = new JButton("Finance Reports");
+		exitDbBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//get ProductID from text field
+				
+				FinancialGUI  nw = new FinancialGUI() ;//calls to GUI for employee
+				
+				nw.NewScreen();
+				
+			}
+		});
 		exitDbBtn.setBounds(6, 283, 134, 29);
 		frmClass.getContentPane().add(exitDbBtn);
 		
@@ -279,7 +290,15 @@ public class CustomerOrderGUI {
 				double custLocation = Double.valueOf(custLocationtextField.getText());
 				String ProductID = ProductIDtextField.getText();
 
+				boolean check = false;
+				check = productTable.checkInventory(ProductID, Quantity);
+				double InventQuantity = productTable.getQuantity(ProductID);
 				
+				if (check == false) {
+					JOptionPane.showMessageDialog(null, "No enough product in Inventory.Only '"+InventQuantity+"' available" );
+				}
+				
+				else {
 				DateTimeFormatter dateFormatter = 
 				        new DateTimeFormatterBuilder()
 				            .parseCaseInsensitive()
@@ -303,6 +322,7 @@ public class CustomerOrderGUI {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();
 					}
+			}
 			}
 			});
 			addBtn.setBounds(6, 160, 134, 29);
