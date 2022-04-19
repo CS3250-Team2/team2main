@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.io.BufferedWriter;
 
 //import com.mysql.cj.xdevapi.Statement;
 
@@ -128,6 +129,8 @@ private OrderInfo convertRowToProduct(ResultSet rs) throws SQLException {
 	}
 
 public void addOrder(LocalDate date, String cust_email, double cust_Location , String ProductID , double Quantity) {
+	
+
 
     try {
 
@@ -340,4 +343,116 @@ public void editOrder( String Email, double custLocation, double Quantity,double
 		} 
 }
 
+public List<OrderInfo> getDailyReport(LocalDate date)throws Exception{
+	List<OrderInfo> list = new ArrayList<>();   
+	PreparedStatement statement = null; 
+	ResultSet rs = null;
+	 
+
+
+		try {	
+			
+			
+	    	q = ("SELECT * FROM `orders` WHERE date = '"+date+"'");
+
+		 statement = connection.prepareStatement (q);   
+			
+			//statement.setDouble(1, date.getMonthValue());
+			//statement.setDouble(2, date.getDayOfMonth());
+			//statement.setDouble(3, date.getYear());
+			
+	    	rs = statement.executeQuery(q);
+
+
+	    	while(rs.next()) {//gets data from database
+				OrderInfo tempOrderInfo = convertRowToProduct(rs);
+				list.add(tempOrderInfo);
+				
+			}
+						
+			statement.close();
+		}
+		catch (SQLException e) {       //to check if the db connection was successful or not
+	        System.out.println("Oops, error!");
+	        e.printStackTrace();
+	     } 
+		return list; 
+		
+		
+
+	}
+
+public List<OrderInfo> getMonthyReport(LocalDate date)throws Exception{
+	List<OrderInfo> list = new ArrayList<>();   
+	PreparedStatement statement = null; 
+	ResultSet rs = null;
+	int year = date.getYear(); 
+	int month = date.getMonthValue();
+	
+	try {	
+		
+		
+    	q = ("SELECT * FROM `orders` WHERE Month (date) = '"+month+"' AND YEAR(date) = '"+year+"'");
+    	//q = ("SELECT * FROM `orders` WHERE Month (date) = ? AND YEAR(date) = ?");
+		 statement = connection.prepareStatement (q);   
+			
+			//statement.setInt(1, date.getMonthValue());
+			//statement.setInt(2, date.getYear());
+			
+    	rs = statement.executeQuery(q);
+
+
+    	while(rs.next()) {//gets data from database
+			OrderInfo tempOrderInfo = convertRowToProduct(rs);
+			list.add(tempOrderInfo);
+			
+		}
+					
+		statement.close();
+	}
+	catch (SQLException e) {       //to check if the db connection was successful or not
+        System.out.println("Oops, error!");
+        e.printStackTrace();
+     } 
+	return list; 
+	
+	
+
+}
+
+public List<OrderInfo> getYearReport(LocalDate date)throws Exception{
+	List<OrderInfo> list = new ArrayList<>();   
+	PreparedStatement statement = null; 
+	ResultSet rs = null;
+	 
+int year = date.getYear();
+	
+	try {	
+		
+		
+    	q = ("SELECT * FROM orders WHERE  YEAR(date) = '"+year+"'");
+		 statement = connection.prepareStatement (q);   
+		
+			//statement.setInt(1,year );
+			
+    	rs = statement.executeQuery(q);
+
+
+    	while(rs.next()) {//gets data from database
+			OrderInfo tempOrderInfo = convertRowToProduct(rs);
+			list.add(tempOrderInfo);
+			
+		}
+					
+		statement.close();
+	}
+	catch (SQLException e) {       //to check if the db connection was successful or not
+        System.out.println("Oops, error!");
+        e.printStackTrace();
+     } 
+	return list; 
+	
+	
+
+}
 }
