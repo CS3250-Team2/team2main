@@ -263,7 +263,15 @@ public class CustomerGUI {
 				String ProductID = ProductIDtextField.getText();
 			
 				
+				boolean check = false;
+				check = productTable.checkInventory(ProductID, Quantity);
+				double InventQuantity = productTable.getQuantity(ProductID);
 				
+				if (check == false) {
+					JOptionPane.showMessageDialog(null, "No enough product in Inventory.Only '"+InventQuantity+"' available" );
+				}
+				
+				else {
 				DateTimeFormatter dateFormatter = 
 				        new DateTimeFormatterBuilder()
 				            .parseCaseInsensitive()
@@ -279,7 +287,12 @@ public class CustomerGUI {
 				try {
 					
 					orderTable.addOrder(date2, custEmail, custLocation, ProductID, Quantity);
-					} catch (Exception e2) {
+					
+					
+					
+					}
+				
+				catch (Exception e2) {
 						// TODO Auto-generated catch block
 						e2.printStackTrace();
 					}
@@ -328,7 +341,7 @@ public class CustomerGUI {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			
+				}
 			}
 			});
 		
