@@ -1,76 +1,211 @@
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class Finance {
-	 ResultSet rs = null;
-	    String q;
-	    Connection connection = new dbConnection().getConnection();//open connection to mySql database
-	private double payment;
-	private PreparedStatement statement;
-	private double salePrice;
-	private double quantity;
-	private double wholesale;
-	private double InvenQuantity;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
+
+
+
+public class FinancialGUI {
+
+	private JFrame frmClass;
+	private Finance finance;
+	private JTextField DateTextField;
+	private OrderTable orderTable;
+	private OrderInfo orderInfo;
+	private OrderInfo tempOrderInfo;
+	private JTable table;
+	private JLabel DateTextFieldLabel;
 	
-	public double payment(String productId, double quantity) {
-		
-		try {
-			q = "select * FROM productInfo WHERE ProductID = '"+productId+"'";
-   		 statement = connection.prepareStatement (q);    //connection to database
-   		//statement.setString( 1, productId);//calling to first column to search 
-       	rs = statement.executeQuery(q);
-   
+	public static void NewScreen() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					FinancialGUI window = new FinancialGUI();
+					window.frmClass.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
-       	while(rs.next()) {//gets data from database	
-		 salePrice = rs.getDouble("salePrice");
-		 wholesale = rs.getDouble("wholesale");
-		 InvenQuantity = rs.getDouble("quantity");
-			
-       	}
-       	if (quantity <=5) {
-       	payment = salePrice * quantity;
-       	}
-       	else {
-       		payment = wholesale * quantity;
-       		
-       	
-       	}
-       	System.out.println("inventory quantity before order = "+ InvenQuantity);
-       	
-       	InvenQuantity = InvenQuantity - quantity; 
-       	
-       	System.out.println("inventory quantity after order = "+ InvenQuantity);
-       	
-       	
-       	checkout(productId, InvenQuantity );
+	public FinancialGUI() {
+		try {
+			orderTable = new OrderTable();
+			finance = new Finance();
+
 		}
-		catch (SQLException e) {       //to check if the db connection was successful or not
+		catch (Exception exc) {       //to check if the db connection was successful or not
 	        System.out.println("Oops, error!");
-	        e.printStackTrace();
+	      //  JOptionPane.showMessageDialog(this, "Error:" + exc, "Error", JOptionPane.ERROR_MESSAGE);
 	     }
-		return payment; 
-	}
 
-	
-	public void checkout(String productId, double quantity) {
-		System.out.println("inventory quantity= "+ quantity);
-		try {
-			q = "Update productInfo set Quantity = ? WHERE ProductID = '"+productId+"'";
-   		 statement = connection.prepareStatement (q);    //connection to database
-   		statement.setDouble( 1, quantity);//calling to first column to search 
-       statement.executeUpdate();	
+	     initialize();
 	}
-		catch (SQLException e) {       //to check if the db connection was successful or not
-	        System.out.println("Oops, error!");
-	        e.printStackTrace();
-	
-		}
-}
-	
-	 
+	private void initialize() {
+		//JPanel panel = new JPanel();
+		frmClass = new JFrame();
+		frmClass.setTitle("Finance Report");
+		frmClass.getContentPane().setForeground(Color.BLUE);
+		frmClass.setBounds(100, 100, 816, 575);
+		frmClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmClass.getContentPane().setLayout(null);
 
+		
+		
+		DateTextField = new JTextField();
+		DateTextField.setBounds(206, 74, 123, 22);
+		frmClass.getContentPane().add(DateTextField);
+		DateTextField.setColumns(10);
+
+		DateTextFieldLabel= new JLabel("Date to Search YYYY-MM-DD");
+		DateTextFieldLabel.setBounds(206, 10, 180, 100);
+		frmClass.getContentPane().add(DateTextFieldLabel);
+		table = new JTable();
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setEnabled(false);
+		scrollPane.setBounds(258, 107, 307, 277);
+		frmClass.getContentPane().add(scrollPane);
+		scrollPane.setViewportView(table);
+		
+		JButton btnDailyOrders = new JButton("Report Daily Orders");
+		btnDailyOrders.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//get ProductID from text field
+				
+				String date = DateTextField.getText();
+				
+				DateTimeFormatter dateFormatter = 
+				        new DateTimeFormatterBuilder()
+				            .parseCaseInsensitive()
+				            .appendPattern("yyyy-MM-dd")
+				            .toFormatter(Locale.ENGLISH);
+				
+				
+				LocalDate date2 = LocalDate.parse(date, dateFormatter);
+				
+				List<OrderInfo> orderInfo = null;
+				try {
+					orderInfo = orderTable.getDailyReport(date2);
+				
+					OrderTableModel model = new OrderTableModel(orderInfo);
+					table.setModel(model);
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+
+		
+		
+		
+		
+		btnDailyOrders.setHorizontalAlignment(SwingConstants.LEFT);
+		btnDailyOrders.setBounds(33, 156, 148, 23);
+		frmClass.getContentPane().add(btnDailyOrders);
+
+		JButton btnMonthlyOrders = new JButton("Report Monthly Orders");
+		btnMonthlyOrders.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//get ProductID from text field
+				
+				String date = DateTextField.getText();
+				
+				DateTimeFormatter dateFormatter = 
+				        new DateTimeFormatterBuilder()
+				            .parseCaseInsensitive()
+				            .appendPattern("yyyy-MM-dd")
+				            .toFormatter(Locale.ENGLISH);
+				
+				
+				LocalDate date2 = LocalDate.parse(date, dateFormatter);
+				
+				List<OrderInfo> orderInfo = null;
+				try {
+					orderInfo = orderTable.getMonthyReport(date2);
+				
+					OrderTableModel model = new OrderTableModel(orderInfo);
+					table.setModel(model);
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+
+
+		
+		
+		
+		btnMonthlyOrders.setHorizontalAlignment(SwingConstants.LEFT);
+		btnMonthlyOrders.setBounds(33, 266, 148, 23);
+		frmClass.getContentPane().add(btnMonthlyOrders);
+
+		JButton btnYearlyOrders = new JButton("Report Yearly Orders");
+		btnYearlyOrders.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//get ProductID from text field
+				
+				String date = DateTextField.getText();
+				
+				DateTimeFormatter dateFormatter = 
+				        new DateTimeFormatterBuilder()
+				            .parseCaseInsensitive()
+				            .appendPattern("yyyy-MM-dd")
+				            .toFormatter(Locale.ENGLISH);
+				
+				
+				LocalDate date2 = LocalDate.parse(date, dateFormatter);
+				
+				List<OrderInfo> orderInfo = null;
+				try {
+					orderInfo = orderTable.getYearReport(date2);
+					
+					OrderTableModel model = new OrderTableModel(orderInfo);
+					table.setModel(model);
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		
+		
+		btnYearlyOrders.setHorizontalAlignment(SwingConstants.LEFT);
+		btnYearlyOrders.setBounds(33, 361, 148, 23);
+		frmClass.getContentPane().add(btnYearlyOrders);
+
+
+	}
 }
