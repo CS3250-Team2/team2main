@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import com.mysql.cj.jdbc.result.ResultSetMetaData;
 
 class ConnectionTest {
+	
 	@DisplayName("JDBC Successful")
 	@Test
 	public void testOpenConnection() throws Exception {
@@ -24,22 +25,21 @@ class ConnectionTest {
 	public void testAuthorization() throws Exception {
 
 		System.out.println("User authorization pass");
-		String name = "Manager";
-		String tram = "Tram";
-		String tony = "Tony";
-		String collin = "Collin";
-		String david = "David";
-		String test = "test";
+		
 		
 				
 		UserLogin levelAccess = new UserLogin();
-		assertEquals(0, levelAccess.searcAuthroization(name)); // The result will equal not null then junit test pass
-	//	assertEquals(1, levelAccess.searcAuthroization(tram));
-		assertEquals(0, levelAccess.searcAuthroization(tony));
-	//	assertEquals(1, levelAccess.searcAuthroization(collin));
-		assertEquals(0, levelAccess.searcAuthroization(david));
-	//	assertEquals(1, levelAccess.searcAuthroization(test));
+		//assertEquals(0, levelAccess.searcAuthroization(name)); // The result will equal not null then junit test pass
+		
+		assertEquals(1, levelAccess.searcAuthroization("tram"));
+		assertEquals(0, levelAccess.searcAuthroization("tony"));
+		assertEquals(1, levelAccess.searcAuthroization("collin"));
+		assertEquals(0, levelAccess.searcAuthroization("david"));
+		
+		
+	
 	}
+
 
 
 	@Test 
