@@ -1,79 +1,76 @@
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-//Adding on GitHub again 
-//Adding on GitHub again 
-//Adding on GitHub again 
-
-
-public class FinancialGUI {
-	private JFrame frmClass;
-	private Finance finance;
-	private JTextField DateTextField;
+public class Finance {
+	 ResultSet rs = null;
+	    String q;
+	    Connection connection = new dbConnection().getConnection();//open connection to mySql database
+	private double payment;
+	private PreparedStatement statement;
+	private double salePrice;
+	private double quantity;
+	private double wholesale;
+	private double InvenQuantity;
 	
-	public static void NewScreen() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FinancialGUI window = new FinancialGUI();
-					window.frmClass.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
-	public FinancialGUI() {
+	public double payment(String productId, double quantity) {
+		
 		try {
+			q = "select * FROM productInfo WHERE ProductID = '"+productId+"'";
+   		 statement = connection.prepareStatement (q);    //connection to database
+   		//statement.setString( 1, productId);//calling to first column to search 
+       	rs = statement.executeQuery(q);
+   
+
+       	while(rs.next()) {//gets data from database	
+		 salePrice = rs.getDouble("salePrice");
+		 wholesale = rs.getDouble("wholesale");
+		 InvenQuantity = rs.getDouble("quantity");
 			
-			finance = new Finance();
-			
+       	}
+       	if (quantity <=5) {
+       	payment = salePrice * quantity;
+       	}
+       	else {
+       		payment = wholesale * quantity;
+       		
+       	
+       	}
+       	System.out.println("inventory quantity before order = "+ InvenQuantity);
+       	
+       	InvenQuantity = InvenQuantity - quantity; 
+       	
+       	System.out.println("inventory quantity after order = "+ InvenQuantity);
+       	
+       	
+       	checkout(productId, InvenQuantity );
 		}
-		catch (Exception exc) {       //to check if the db connection was successful or not
+		catch (SQLException e) {       //to check if the db connection was successful or not
 	        System.out.println("Oops, error!");
-	      //  JOptionPane.showMessageDialog(this, "Error:" + exc, "Error", JOptionPane.ERROR_MESSAGE);
+	        e.printStackTrace();
 	     }
-		
-	     initialize();
+		return payment; 
 	}
-	private void initialize() {
-		//JPanel panel = new JPanel();
-		frmClass = new JFrame();
-		frmClass.setTitle("Finance Report");
-		frmClass.getContentPane().setForeground(Color.BLUE);
-		frmClass.setBounds(100, 100, 816, 575);
-		frmClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmClass.getContentPane().setLayout(null);
-		
-		JButton btnDailyOrders = new JButton("Report Daily Orders");
-		btnDailyOrders.setHorizontalAlignment(SwingConstants.LEFT);
-		btnDailyOrders.setBounds(33, 156, 148, 23);
-		frmClass.getContentPane().add(btnDailyOrders);
-		
-		JButton btnMonthlyOrders = new JButton("Report Monthly Orders");
-		btnMonthlyOrders.setHorizontalAlignment(SwingConstants.LEFT);
-		btnMonthlyOrders.setBounds(33, 266, 148, 23);
-		frmClass.getContentPane().add(btnMonthlyOrders);
-		
-		JButton btnYearlyOrders = new JButton("Report Yearly Orders");
-		btnYearlyOrders.setHorizontalAlignment(SwingConstants.LEFT);
-		btnYearlyOrders.setBounds(33, 361, 148, 23);
-		frmClass.getContentPane().add(btnYearlyOrders);
-		
-		DateTextField = new JTextField();
-		DateTextField.setBounds(206, 74, 123, 22);
-		frmClass.getContentPane().add(DateTextField);
-		DateTextField.setColumns(10);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setEnabled(false);
-		scrollPane.setBounds(258, 107, 307, 277);
-		frmClass.getContentPane().add(scrollPane);
+
+	
+	public void checkout(String productId, double quantity) {
+		System.out.println("inventory quantity= "+ quantity);
+		try {
+			q = "Update productInfo set Quantity = ? WHERE ProductID = '"+productId+"'";
+   		 statement = connection.prepareStatement (q);    //connection to database
+   		statement.setDouble( 1, quantity);//calling to first column to search 
+       statement.executeUpdate();	
 	}
+		catch (SQLException e) {       //to check if the db connection was successful or not
+	        System.out.println("Oops, error!");
+	        e.printStackTrace();
+	
+		}
+}
+	
+	 
+
 }
