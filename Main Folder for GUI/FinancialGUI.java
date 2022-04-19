@@ -6,6 +6,11 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import java.awt.Color;
 
+//Adding on GitHub again 
+//Adding on GitHub again 
+//Adding on GitHub again 
+
+
 public class FinancialGUI {
 	private JFrame frmClass;
 	private Finance finance;
