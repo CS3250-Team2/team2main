@@ -80,6 +80,7 @@ public class FinancialGUI {
 		DateTextField.setBounds(206, 74, 123, 22);
 		frmClass.getContentPane().add(DateTextField);
 		DateTextField.setColumns(10);
+///biggerScrollPanel
 
 		DateTextFieldLabel= new JLabel("Date to Search YYYY-MM-DD");
 		DateTextFieldLabel.setBounds(206, 10, 180, 100);
@@ -89,6 +90,7 @@ public class FinancialGUI {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setEnabled(false);
 		scrollPane.setBounds(258, 107, 510, 410);
+
 		frmClass.getContentPane().add(scrollPane);
 		scrollPane.setViewportView(table);
 		
@@ -208,4 +210,8 @@ public class FinancialGUI {
 
 
 	}
+
 }
+
+}
+
