@@ -169,8 +169,65 @@ public class ProductTable {
 					} 
 	}
 	
+	public boolean checkInventory(String productID, double Quantity) {
+		boolean check = false;
+		try {
+    		productID +="%";
+        	q = ("select * from productInfo where productID like ?");
+        	
+    		statement = connection.prepareStatement (q);  
+    		statement.setString( 1, productID);//calling to first column to search 
+        	rs = statement.executeQuery();
+    
+
+			rs.next(); //gets data from database
+				double quantity2= rs.getDouble("quantity");							
+			
+						
+			statement.close();
+			rs.close();
+			
+			if( Quantity <= quantity2){
+				check = true;
+			}
+				
+		}
+    	catch (SQLException e) {       //to check if the db connection was successful or not
+	        System.out.println("Oops, error!");
+	        e.printStackTrace();
+	     }
+		
+		System.out.println("inventory quantity before order = "+ check);
+		return check; 
+		
+	}
 	
 	
+	public double getQuantity(String productID ) {
+		double quantity2 = 0;
+     	q = ("select quantity from productInfo where productID like ?");
+     	try {
+    		statement = connection.prepareStatement (q);  
+    		statement.setString( 1, productID);//calling to first column to search 
+        	rs = statement.executeQuery();
+    
+
+			rs.next(); //gets data from database
+        	quantity2 = rs.getDouble("quantity");	
+				
+		statement.close();
+		rs.close();
+     	}
+		
+				catch (SQLException e) {       //to check if the db connection was successful or not
+			        System.out.println("Oops, error!");
+			        e.printStackTrace();
+			     }
+     	
+     	System.out.println("inventory quantity before order = "+ quantity2);
+		return quantity2;
+		
+	}
 	
 private ProductInfo convertRowToProduct(ResultSet rs) throws SQLException {
 
