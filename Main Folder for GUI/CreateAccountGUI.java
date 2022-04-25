@@ -72,6 +72,7 @@ public class CreateAccountGUI extends JFrame {
 	
 	
 	public CreateAccountGUI() {
+		setTitle("Create Account");
 		
 		try {
 		userInfo = new UserInfo();
@@ -177,6 +178,18 @@ public class CreateAccountGUI extends JFrame {
 				);
 		enterBtn.setBounds(287, 206, 89, 23);
 		contentPane.add(enterBtn);
+		
+		JButton backButton = new JButton("Back");
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginGUI frm = new LoginGUI();
+				frm.main(null);
+				
+				
+			}
+		});
+		backButton.setBounds(287, 45, 89, 23);
+		contentPane.add(backButton);
 		
 		
 	}
