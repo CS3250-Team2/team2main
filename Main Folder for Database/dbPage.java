@@ -78,6 +78,7 @@ public class dbPage {
 	private JTextField orderIDtextField;
 	private JButton orderBtn;
 	String authorization; 
+	private JButton backButton;
 	
 	/**
 	 * Create the application.
@@ -116,6 +117,7 @@ public class dbPage {
 	private void initialize() {
 		//JPanel panel = new JPanel();
 		frmClass = new JFrame();
+		frmClass.setTitle("Database ");
 		frmClass.setBounds(100, 100, 662, 504);
 		frmClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmClass.getContentPane().setLayout(null);
@@ -353,6 +355,17 @@ public class dbPage {
 		productIDtextField.setBounds(6, 40, 130, 26);
 		frmClass.getContentPane().add(productIDtextField);
 		productIDtextField.setColumns(10);
+		
+		backButton = new JButton("Back");
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginGUI frm = new LoginGUI();
+				frm.main(null);
+				
+			}
+		});
+		backButton.setBounds(16, 363, 89, 23);
+		frmClass.getContentPane().add(backButton);
 		
 		
 	}

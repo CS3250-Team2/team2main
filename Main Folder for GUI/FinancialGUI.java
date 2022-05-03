@@ -207,11 +207,21 @@ public class FinancialGUI {
 		btnYearlyOrders.setHorizontalAlignment(SwingConstants.LEFT);
 		btnYearlyOrders.setBounds(33, 361, 148, 23);
 		frmClass.getContentPane().add(btnYearlyOrders);
+		
+		JButton backButton = new JButton("Back");
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CustomerOrderGUI back = new CustomerOrderGUI();
+				back.NewScreen();
+				
+			}
+		});
+		backButton.setBounds(31, 421, 89, 23);
+		frmClass.getContentPane().add(backButton);
 
 
 	}
-
 }
 
-}
+
 

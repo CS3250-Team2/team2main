@@ -74,6 +74,7 @@ public class CustomerGUI {
 	String authorization;
 	List<OrderInfo> list = new ArrayList<>();
 	private JButton deleteBtn;
+	private JButton backButton;
 	
 	/**
 	 * Create the application.
@@ -104,6 +105,7 @@ public class CustomerGUI {
 	private void initialize() {
 		//JPanel panel = new JPanel();
 		frmClass = new JFrame();
+		frmClass.setTitle("Customer");
 		frmClass.setBounds(100, 100, 662, 504);
 		frmClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmClass.getContentPane().setLayout(null);
@@ -370,6 +372,16 @@ public class CustomerGUI {
 			
 			deleteBtn.setBounds(6, 243, 134, 29);
 			frmClass.getContentPane().add(deleteBtn);
+			
+			backButton = new JButton("Back");
+			backButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					LoginGUI frm = new LoginGUI();
+					frm.main(null);
+				}
+			});
+			backButton.setBounds(12, 350, 89, 23);
+			frmClass.getContentPane().add(backButton);
 		//editBtn 
 			// action call
 			//String firstname = userLogin.getFirstname();
