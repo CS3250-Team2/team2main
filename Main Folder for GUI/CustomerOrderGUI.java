@@ -71,6 +71,7 @@ public class CustomerOrderGUI {
 	private JLabel lblNewLabel;
 	private JTextField OrderIdtextField;
 	private double oriQuantity;
+	private final JButton btnBack = new JButton("Back");
 	
 	/**
 	 * Create the application.
@@ -100,6 +101,7 @@ public class CustomerOrderGUI {
 	private void initialize() {
 		//JPanel panel = new JPanel();
 		frmClass = new JFrame();
+		frmClass.setTitle("Customer Order");
 		frmClass.setBounds(100, 100, 800, 700);
 		frmClass.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmClass.getContentPane().setLayout(null);
@@ -456,6 +458,15 @@ public class CustomerOrderGUI {
 			OrderIdtextField.setBounds(629, 43, 104, 20);
 			frmClass.getContentPane().add(OrderIdtextField);
 			OrderIdtextField.setColumns(10);
+			btnBack.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					dbPage back = new dbPage();
+					back.NewScreen();
+				}
+			});
+			btnBack.setBounds(6, 468, 95, 26);
+			frmClass.getContentPane().add(btnBack);
 			
 			
 		
