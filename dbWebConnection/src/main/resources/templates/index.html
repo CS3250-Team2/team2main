@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Orders</title>
+</head>
+<body>
+
+<div align="center">
+  <h1>Order List</h1>
+  <table border ="1">
+  <thead>
+   <tr>
+  <th> Order date </th>
+   <th> Order cust_email </th>
+    <th> Order cust_location </th>
+     <th> Order product_id </th>
+      <th> Order orderquantity </th>
+  
+  </tr>
+  
+  </thead>
+  <tbody>
+  
+  
+  		<tr 
+  			th:each="orders : ${listOrders}" >
+  			<td th:text="${Orders.date}"></td>
+  			<td th:text="${Orders.cust_email}"></td>
+  			<td th:text="${Orders.cust_location}"></td>
+  			<td th:text="${Orders.orderproduct_id}"></td>
+  			<td th:text="${Orders.orderquantity}"></td>
+  			
+  			
+  			
+  		</tr>
+  	
+  
+  </tbody>
+  </table>
+</div>
+
+</body>
+</html>
